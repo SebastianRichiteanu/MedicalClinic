@@ -1,17 +1,22 @@
 package com.example.medicalclinic2;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
+import com.example.medicalclinic2.model.DatabaseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +35,22 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        databaseHandler.deleteAll();
+        databaseHandler.insertUser(1, "gigel", "GGL");
+        databaseHandler.insertUser(2, "fratele lui gigel", "GGL2");
+        Cursor cursor = databaseHandler.allData();
+        if(cursor.getCount() == 0)
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
+        else{
+            while(cursor.moveToNext()){
+//                Toast.makeText(getApplicationContext(), "Username: "+cursor.getString(1), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Password: "+cursor.getString(2), Toast.LENGTH_SHORT).show();
+                  System.out.println("Username: " + cursor.getString(1));
+                  System.out.println("Password: " + cursor.getString(2));
+            }
+        }
     }
 
     @Override
