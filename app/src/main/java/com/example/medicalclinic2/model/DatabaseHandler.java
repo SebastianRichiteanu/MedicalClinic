@@ -36,13 +36,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
-        ContentValues initial = new ContentValues();
-        initial.put("id",0);
-        initial.put("username","test");
-        initial.put("password","123");
-        db.insert(TABLE_NAME, null, initial);
-
-
     }
 
     @Override
@@ -50,6 +43,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
        onCreate(db);
 
+    }
+
+    public void deleteAll(){
+        database = getWritableDatabase();
+        database.execSQL("delete from "+ TABLE_NAME);
+    }
+
+    public boolean insertUser(int id, String username, String password){
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("id", id);
+        initial.put("username", username);
+        initial.put("password", password);
+        long result = database.insert(TABLE_NAME, null, initial);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor allData(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from userdata", null);
+        return cursor;
     }
 
 }
