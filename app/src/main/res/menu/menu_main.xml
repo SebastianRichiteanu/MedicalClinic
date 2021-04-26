@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.medicalclinic2.MainActivity">
     <item
+        android:id="@+id/register"
+        android:orderInCategory="100"
+        android:title="@string/register"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

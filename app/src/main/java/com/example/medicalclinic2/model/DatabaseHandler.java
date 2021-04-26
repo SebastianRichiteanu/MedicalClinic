@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+
+    private static int db_user_id = 1;   // se reseteaza de fiecare data ???
 
     SQLiteDatabase database;
 
@@ -50,17 +53,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.execSQL("delete from "+ TABLE_NAME);
     }
 
-    public boolean insertUser(int id, String username, String password){
+    public boolean insertUser(String username, String password){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
-        initial.put("id", id);
+        initial.put("id", db_user_id);
         initial.put("username", username);
         initial.put("password", password);
         long result = database.insert(TABLE_NAME, null, initial);
         if(result == -1)
             return false;
-        else
+        else {
+            db_user_id += 1;
             return true;
+        }
     }
 
     public Cursor allData(){
@@ -68,5 +73,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from userdata", null);
         return cursor;
     }
+
 
 }

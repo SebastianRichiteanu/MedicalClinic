@@ -1,5 +1,6 @@
 package com.example.medicalclinic2;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -37,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        databaseHandler.deleteAll();
-        databaseHandler.insertUser(1, "gigel", "GGL");
-        databaseHandler.insertUser(2, "fratele lui gigel", "GGL2");
         Cursor cursor = databaseHandler.allData();
         if(cursor.getCount() == 0)
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
@@ -47,9 +45,16 @@ public class MainActivity extends AppCompatActivity {
             while(cursor.moveToNext()){
 //                Toast.makeText(getApplicationContext(), "Username: "+cursor.getString(1), Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getApplicationContext(), "Password: "+cursor.getString(2), Toast.LENGTH_SHORT).show();
+                    System.out.println("Id: " + cursor.getString(0));
                   System.out.println("Username: " + cursor.getString(1));
                   System.out.println("Password: " + cursor.getString(2));
             }
+        }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String username = extras.getString("username");
+            String password = extras.getString("password");
+            databaseHandler.insertUser(username,password);
         }
     }
 
@@ -70,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.register) {
+            Intent intent = new Intent(this, Register.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
