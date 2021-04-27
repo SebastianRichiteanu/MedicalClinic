@@ -45,8 +45,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
-        db.execSQL("CREATE_TABLE " + TABLE_NAME_MEDICATION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " TEXT)" );
+        db.execSQL("CREATE TABLE " + TABLE_NAME_MEDICATION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " INTEGER)" );
     }
 
     @Override
@@ -77,7 +77,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertMedication(String name, Double price, String supplier){
+    public boolean insertMedication(String name, Double price, int supplier){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("name", name);
