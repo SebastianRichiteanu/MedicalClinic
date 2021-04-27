@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         databaseHandler.deleteAll();
 
-
+        System.out.println("USERI!!!!");
         // afisare user
         databaseHandler.deleteAll();
         databaseHandler.insertUser("gigel", "GGL");
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        System.out.println("DOCTORI!!!!");
         databaseHandler.insertDoctor("prenume","nume",25,"str.sforii","0723456789",123.2,"specializare");
 
         Cursor cursor3 = databaseHandler.allDataDoctors();
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        System.out.println("SUPPLIERI!!!!");
         databaseHandler.insertSupplier("name","location");
 
         Cursor cursor2 = databaseHandler.allDataSuppliers();
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        System.out.println("PACIENTI!!!!");
         databaseHandler.insertPatient("necula", "narcis", 20, "aa", "07", "frumusete");
         Cursor cursor4 = databaseHandler.allDataPatients();
 
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        System.out.println("MEDPRESC!!!!");
         databaseHandler.insertMedPresc(0,0);
         Cursor cursor5 = databaseHandler.allDataMedPrescs();
 
@@ -121,11 +125,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
         else{
             while(cursor5.moveToNext()){
-                System.out.println("Id Medication: " + cursor5.getString(1));
-                System.out.println("Id Prescription: " + cursor5.getString(2));
+                System.out.println("Id Medication: " + cursor5.getString(0));
+                System.out.println("Id Prescription: " + cursor5.getString(1));
             }
         }
 
+
+        System.out.println("PRESCRIPTION!!!!");
         Date date = new Date(Calendar.getInstance().getTime().getTime());
         databaseHandler.insertPrescription(date);
         Cursor cursor6 = databaseHandler.allDataPrescription();
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
+        System.out.println("APPOINTMENTS!!!!");
         databaseHandler.insertAppointment(0,0,date);
         Cursor cursor7 = databaseHandler.allDataAppointments();
 
@@ -154,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+        System.out.println("MEDICATION!!!!");
         databaseHandler.insertMedication("nume",123.2,0);
         Cursor cursor8 = databaseHandler.allDataMedication();
 

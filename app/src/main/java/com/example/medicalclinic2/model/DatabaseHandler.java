@@ -52,7 +52,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_IDPATIENT = "idPatient";
 
 
-    SQLiteDatabase database;
+    public SQLiteDatabase database; //  private!
 
     public DatabaseHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -79,8 +79,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_NAME_SUPPLIER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_IDMEDICATION + " INTEGER, " + COLUMN_IDPRESCRIPTION + " INTEGER)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_IDMEDICATION + " INTEGER, " +
+                COLUMN_IDPRESCRIPTION + " INTEGER, " + " PRIMARY KEY ( " + COLUMN_IDMEDICATION + "," + COLUMN_IDPRESCRIPTION + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_PRESCRIPTION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_DATE + " DATE) ");
@@ -100,6 +100,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
        onCreate(db);
+    }
+    public void dropDB (SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
+        onCreate(db);
     }
     public void deleteAllDoctors() {
         database = getWritableDatabase();
