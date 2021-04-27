@@ -8,9 +8,6 @@ public class AppointmentService {
         medicalOffice.getAppointments().add(appointment);
     }
 
-    public void updatePrescription (Appointment appointment, Prescription prescription) {
-        appointment.setPrescription(prescription);
-    }
 
     public int numberOfAppointmentsPerDoctor (MedicalOffice medicalOffice, Doctor doctor) {
         int numberOfAppointments = 0;

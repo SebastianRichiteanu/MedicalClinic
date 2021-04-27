@@ -3,13 +3,11 @@ package com.example.medicalclinic2.model;
 public class Appointment {
     private Patient patient;
     private Doctor doctor;
-    private Prescription prescription;
     private String date;
 
     public Appointment(Patient patient, Doctor doctor, Prescription prescription, String date) {
         this.patient = patient;
         this.doctor = doctor;
-        this.prescription = prescription;
         this.date = date;
     }
 
@@ -21,10 +19,6 @@ public class Appointment {
 
     public void setDoctor(Doctor doctor) { this.doctor = doctor; }
 
-    public Prescription getPrescription() { return prescription; }
-
-    public void setPrescription(Prescription prescription) { this.prescription = prescription; }
-
     public String getDate() { return date; }
 
     public void setDate(String date) { this.date = date; }
@@ -32,7 +26,7 @@ public class Appointment {
     @Override
     public String toString() {
         String str = "Date: " + date + '\n';
-        str += "Patient | " + patient.toString() + "\nDoctor | " + doctor.toString() + "\nPrescription | " + prescription + '\n';
+        str += "Patient | " + patient.toString() + "\nDoctor | " + doctor.toString() + '\n';
         return str;
     }
 

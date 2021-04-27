@@ -116,10 +116,6 @@ public class MedicalOfficeService {
         prescriptionService.addMedicationToPrescription(medication, prescription);
     }
 
-    public void updatePrescription (Appointment appointment, Prescription prescription) {
-        appointmentService.updatePrescription(appointment, prescription);
-    }
-
     public int numberOfAppointmentsPerDoctor (MedicalOffice medicalOffice, Doctor doctor) {
         return appointmentService.numberOfAppointmentsPerDoctor(medicalOffice, doctor);
     }
