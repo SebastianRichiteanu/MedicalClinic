@@ -36,7 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_PRICE = "price";
-    private static final String COLUMN_SUPPLIER = "supplier";
+    private static final String COLUMN_SUPPLIER = "idSupplier";
     private static final String COLUMN_SURNAME = "surname";
     private static final String COLUMN_AGE = "age";
     private static final String COLUMN_ADDRESS = "address";
@@ -52,7 +52,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_IDPATIENT = "idPatient";
 
 
-    public SQLiteDatabase database; //  private!
+    SQLiteDatabase database; //  private!
 
     public DatabaseHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,8 +65,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_USER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
+
+        db.execSQL("CREATE TABLE " + TABLE_NAME_SUPPLIER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
+
         db.execSQL("CREATE TABLE " + TABLE_NAME_MEDICATION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " INTEGER)" );
+                COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " INTEGER, FOREIGN KEY(" +
+                COLUMN_SUPPLIER + ") REFERENCES " + TABLE_NAME_SUPPLIER + " (" + COLUMN_ID + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_DOCTOR + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS +
@@ -76,8 +81,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
             + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT)");
-        db.execSQL("CREATE TABLE " + TABLE_NAME_SUPPLIER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_IDMEDICATION + " INTEGER, " +
                 COLUMN_IDPRESCRIPTION + " INTEGER, " + " PRIMARY KEY ( " + COLUMN_IDMEDICATION + "," + COLUMN_IDPRESCRIPTION + "))");
@@ -85,7 +88,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_NAME_PRESCRIPTION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_DATE + " DATE) ");
         db.execSQL("CREATE TABLE " + TABLE_NAME_APPOINTMENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_IDDOCTOR + " INTEGER, " + COLUMN_IDPATIENT + " INTEGER, " + COLUMN_DATE + " DATE) ") ;
+                COLUMN_IDDOCTOR + " INTEGER, " + COLUMN_IDPATIENT + " INTEGER, " + COLUMN_DATE + " DATE, FOREIGN KEY(" +
+                COLUMN_IDDOCTOR+") REFERENCES " + TABLE_NAME_DOCTOR + "("+ COLUMN_ID + "), FOREIGN KEY(" +
+                COLUMN_IDPATIENT + ") REFERENCES " + TABLE_NAME_PATIENT + "(" + COLUMN_ID + "))") ;
     }
 
     @Override
@@ -101,18 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
        onCreate(db);
     }
-    public void dropDB (SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
-        onCreate(db);
-    }
+
     public void deleteAllDoctors() {
         database = getWritableDatabase();
         database.execSQL("delete from " + TABLE_NAME_DOCTOR);
@@ -220,7 +214,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues initial = new ContentValues();
         initial.put("name", name);
         initial.put("price", price);
-        initial.put("supplier", supplier);
+        initial.put("idSupplier", supplier);
         long result = database.insert(TABLE_NAME_MEDICATION, null, initial);
         if(result == -1)
             return false;
