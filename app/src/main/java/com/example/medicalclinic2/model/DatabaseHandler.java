@@ -18,6 +18,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Table Name
     private static final String TABLE_NAME = "userdata";
+    private static final String TABLE_NAME_PATIENT = "patientdata";
 
 
     private static final String TABLE_NAME_MEDICATION = "medicationdata";
@@ -34,13 +35,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_SUPPLIER = "supplier";
+
     private static final String COLUMN_SURNAME = "surname";
     private static final String COLUMN_AGE = "age";
     private static final String COLUMN_ADDRESS = "address";
     private static final String COLUMN_PHONE = "phone";
+
     private static final String COLUMN_SALARY = "salary";
     private static final String COLUMN_SPECIALIZATION = "specialization";
 
+    private static final String COLUMN_CONDITION = "condition";
 
     SQLiteDatabase database;
 
@@ -53,7 +57,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
-
         db.execSQL("CREATE_TABLE " + TABLE_NAME_MEDICATION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " TEXT)" );
 
@@ -61,6 +64,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS +
                 " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_SALARY + " DECIMAL(10,2), " + COLUMN_SPECIALIZATION +
                 " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
+        + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT)");
     }
 
     @Override
@@ -68,6 +74,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
+       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
        onCreate(db);
     }
 
@@ -87,6 +94,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         deleteAllDoctors();
         deleteAllMedication();
     }
+    public void deleteAllPatients(){
+        database = getWritableDatabase();
+        database.execSQL("delete from " + TABLE_NAME_PATIENT);
+    }
+
+    public void deleteAll(){
+        database = getWritableDatabase();
+        database.execSQL("delete from " + TABLE_NAME);
+        database.execSQL("delete from " + TABLE_NAME_PATIENT);
+    }
+
+    public boolean insertPatient(String name, String surname, int age, String address, String phone, String condition){
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("name", name);
+        initial.put("surname", surname);
+        initial.put("age", age);
+        initial.put("address", address);
+        initial.put("phone", phone);
+        initial.put("condition", condition);
+        long result = database.insert(TABLE_NAME_PATIENT, null, initial);
+        if(result == -1)
+            return false;
+        else {
+            return true;
+        }
+
+    }
 
     public boolean insertUser(String username, String password){
         database = getWritableDatabase();
@@ -100,6 +135,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return true;
         }
     }
+
+
 
     public boolean insertMedication(String name, Double price, String supplier){
         database = getWritableDatabase();
@@ -140,14 +177,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+
     public Cursor allDataMedication(){
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from medicationdata", null);
         return cursor;
-
+    }
     public Cursor allDataDoctors(){
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from doctordata", null);
+        return cursor;
+    }
+    public Cursor allDataPatients(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from patientdata", null);
         return cursor;
     }
 
