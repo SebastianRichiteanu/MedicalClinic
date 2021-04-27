@@ -38,7 +38,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        Cursor cursor = databaseHandler.allData();
+
+
+        // afisare user
+        databaseHandler.deleteAll();
+        databaseHandler.insertUser("gigel", "GGL");
+        databaseHandler.insertUser("fratele lui gigel", "GGL2");
+        Cursor cursor = databaseHandler.allDataUsers();
         if(cursor.getCount() == 0)
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
         else{
@@ -50,6 +56,35 @@ public class MainActivity extends AppCompatActivity {
                   System.out.println("Password: " + cursor.getString(2));
             }
         }
+
+        //databaseHandler.deleteAll();
+
+        databaseHandler.insertDoctor("prenume","nume",25,"str.sforii","0723456789",123.2,"specializare");
+
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
+
+        Cursor cursor3 = databaseHandler.allDataDoctors();
+        if(cursor3.getCount() == 0) {
+            System.out.println("gol!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
+        else{
+            while(cursor3.moveToNext()){
+                System.out.println("Id: " + cursor3.getString(0));
+                System.out.println("Name: " + cursor3.getString(1));
+                System.out.println("Surname: " + cursor3.getString(2));
+                System.out.println("Age: " + cursor3.getString(3));
+                System.out.println("Address: " + cursor3.getString(4));
+                System.out.println("Phone: " + cursor3.getString(5));
+                System.out.println("Salary: " + cursor3.getString(6));
+                System.out.println("Specialization: " + cursor3.getString(7));
+
+            }
+        }
+
+
+
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String username = extras.getString("username");
