@@ -21,10 +21,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Table Name
     private static final String TABLE_NAME = "userdata";
 
+    private static final String TABLE_NAME_MEDICATION = "medicationdata";
+
     // Table Fields
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_PRICE = "price";
+    private static final String COLUMN_SUPPLIER = "supplier";
 
     private static int db_user_id = 1;   // se reseteaza de fiecare data ???
 
@@ -39,18 +45,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
+        db.execSQL("CREATE_TABLE " + TABLE_NAME_MEDICATION + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " + COLUMN_PRICE  + " DECIMAL(10,2), " + COLUMN_SUPPLIER + " TEXT)" );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
        onCreate(db);
 
     }
 
-    public void deleteAll(){
+    public void deleteAllMedication(){
         database = getWritableDatabase();
-        database.execSQL("delete from "+ TABLE_NAME);
+        database.execSQL("delete from "+ TABLE_NAME_MEDICATION);
     }
 
     public boolean insertUser(String username, String password){
@@ -68,11 +77,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertMedication(String name, Double price, String supplier){
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("name", name);
+        initial.put("price", price);
+        initial.put("supplier", supplier);
+        long result = database.insert(TABLE_NAME_MEDICATION, null, initial);
+        if(result == -1)
+            return false;
+        else {
+            return true;
+        }
+    }
+
     public Cursor allData(){
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from userdata", null);
         return cursor;
     }
 
+    public Cursor allDataMedication(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from medicationdata", null);
+        return cursor;
+    }
 
 }
