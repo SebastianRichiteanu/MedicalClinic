@@ -20,13 +20,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Table Name
     private static final String TABLE_NAME = "userdata";
+    private static final String SUPPLIER_TABLE_NAME = "supplierdata";
 
     // Table Fields
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
 
-    private static int db_user_id = 1;   // se reseteaza de fiecare data ???
+    // Supplier Table Data
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_LOCATION = "location";
 
     SQLiteDatabase database;
 
@@ -37,15 +40,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY, " +
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
+        db.execSQL("CREATE TABLE " + SUPPLIER_TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
        onCreate(db);
+    }
 
+    public void onUpgradeSupplier(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + SUPPLIER_TABLE_NAME);
+        onCreate(db);
     }
 
     public void deleteAll(){
@@ -53,17 +62,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.execSQL("delete from "+ TABLE_NAME);
     }
 
+    public void deleteAllSupplier(){
+        database = getWritableDatabase();
+        database.execSQL("delete from "+ SUPPLIER_TABLE_NAME);
+    }
+
     public boolean insertUser(String username, String password){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
-        initial.put("id", db_user_id);
         initial.put("username", username);
         initial.put("password", password);
         long result = database.insert(TABLE_NAME, null, initial);
         if(result == -1)
             return false;
         else {
-            db_user_id += 1;
+            return true;
+        }
+    }
+
+    public boolean insertSupplier(String name, String location) {
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("name", name);
+        initial.put("location", location);
+        long result = database.insert(SUPPLIER_TABLE_NAME, null, initial);
+        if(result == -1)
+            return false;
+        else {
             return true;
         }
     }
@@ -74,5 +99,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
-
+    public Cursor allDataSuppliers(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from supplierdata", null);
+        return cursor;
+    }
 }
