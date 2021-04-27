@@ -40,11 +40,16 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
 
 
+
         // afisare user
         databaseHandler.deleteAll();
         databaseHandler.insertUser("gigel", "GGL");
         databaseHandler.insertUser("fratele lui gigel", "GGL2");
         Cursor cursor = databaseHandler.allDataUsers();
+
+        //afisare users
+        Cursor cursor = databaseHandler.allData();
+
         if(cursor.getCount() == 0)
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
         else{
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                   System.out.println("Password: " + cursor.getString(2));
             }
         }
+
 
         //databaseHandler.deleteAll();
 
@@ -82,8 +88,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        databaseHandler.deleteAllSupplier();
+        databaseHandler.insertSupplier("name","location");
 
-
+        //afisare suppliers
+        Cursor cursor2 = databaseHandler.allDataSuppliers();
+        if(cursor2.getCount() == 0)
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
+        else{
+            while(cursor2.moveToNext()){
+//                Toast.makeText(getApplicationContext(), "Username: "+cursor.getString(1), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Password: "+cursor.getString(2), Toast.LENGTH_SHORT).show();
+                System.out.println("Id: " + cursor2.getString(0));
+                System.out.println("Name: " + cursor2.getString(1));
+                System.out.println("Location: " + cursor2.getString(2));
+            }
+        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

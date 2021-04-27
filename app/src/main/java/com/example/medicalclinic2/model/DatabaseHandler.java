@@ -18,11 +18,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Table Name
     private static final String TABLE_NAME = "userdata";
+
     private static final String TABLE_NAME_PATIENT = "patientdata";
-
-
     private static final String TABLE_NAME_MEDICATION = "medicationdata";
     private static final String TABLE_NAME_DOCTOR = "doctordata";
+
+
+    private static final String SUPPLIER_TABLE_NAME = "supplierdata";
+    private static final String MEDPRESC_TABLE_NAME = "medprescdata";
 
 
     // Table Fields
@@ -30,6 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
+
 
     private static final String COLUMN_NAME = "name";
 
@@ -45,6 +49,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_SPECIALIZATION = "specialization";
 
     private static final String COLUMN_CONDITION = "condition";
+
+    // Supplier Table Data
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_LOCATION = "location";
+
+    // MedicationInPrescription Table Data
+    private static final String COLUMN_IDMEDICATION = "idMedication";
+    private static final String COLUMN_IDPRESCRIPTION = "idPrescription";
+
 
     SQLiteDatabase database;
 
@@ -65,8 +78,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_SALARY + " DECIMAL(10,2), " + COLUMN_SPECIALIZATION +
                 " TEXT)");
         db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-        + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
-        + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT)");
+            + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
+            + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT)");
+        db.execSQL("CREATE TABLE " + SUPPLIER_TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
+        db.execSQL("CREATE TABLE " + MEDPRESC_TABLE_NAME + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_IDMEDICATION + " INTEGER, " + COLUMN_IDPRESCRIPTION + " INTEGER)");
+
     }
 
     @Override
@@ -77,7 +95,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
        onCreate(db);
     }
-
     public void deleteAllDoctors() {
         database = getWritableDatabase();
         database.execSQL("delete from " + TABLE_NAME_DOCTOR);
@@ -89,21 +106,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database = getWritableDatabase();
         database.execSQL("delete from " + TABLE_NAME);
     }
-    public void deleteAll(){
-        deleteAllUsers();
-        deleteAllDoctors();
-        deleteAllMedication();
-    }
     public void deleteAllPatients(){
         database = getWritableDatabase();
         database.execSQL("delete from " + TABLE_NAME_PATIENT);
     }
-
-    public void deleteAll(){
+    public void deleteAllSupplier(){
         database = getWritableDatabase();
-        database.execSQL("delete from " + TABLE_NAME);
-        database.execSQL("delete from " + TABLE_NAME_PATIENT);
+        database.execSQL("delete from "+ SUPPLIER_TABLE_NAME);
     }
+
+    public void deleteAllMedPresc(){
+        database = getWritableDatabase();
+        database.execSQL("delete from "+ MEDPRESC_TABLE_NAME);
+    }
+    public void deleteAll(){
+        deleteAllUsers();
+        deleteAllDoctors();
+        deleteAllMedication();
+        deleteAllPatients();
+        deleteAllSupplier();
+        deleteAllMedPresc();
+    }
+   
+
+
+    public void onUpgradeSupplier(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + SUPPLIER_TABLE_NAME);
+        onCreate(db);
+    }
+
+    public void onUpgradeMedPresc(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + MEDPRESC_TABLE_NAME);
+        onCreate(db);
+
+    }
+
 
     public boolean insertPatient(String name, String surname, int age, String address, String phone, String condition){
         database = getWritableDatabase();
@@ -123,12 +160,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+
+
     public boolean insertUser(String username, String password){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("username", username);
         initial.put("password", password);
         long result = database.insert(TABLE_NAME, null, initial);
+        if(result == -1)
+            return false;
+        else {
+            return true;
+        }
+    }
+
+    public boolean insertSupplier(String name, String location) {
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("name", name);
+        initial.put("location", location);
+        long result = database.insert(SUPPLIER_TABLE_NAME, null, initial);
+        if(result == -1)
+            return false;
+        else {
+            return true;
+        }
+    }
+
+    public boolean insertMedPresc(int idMed, int idPresc) {
+        database = getWritableDatabase();
+        ContentValues initial = new ContentValues();
+        initial.put("idMedication", idMed);
+        initial.put("idPrescription", idPresc);
+        long result = database.insert(MEDPRESC_TABLE_NAME, null, initial);
         if(result == -1)
             return false;
         else {
@@ -177,6 +242,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor allDataSuppliers(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from supplierdata", null);
+        return cursor;
+    }
 
     public Cursor allDataMedication(){
         database = getWritableDatabase();
@@ -193,6 +263,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from patientdata", null);
         return cursor;
     }
-
+    public Cursor allDataMedPrescs(){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from medprescdata", null);
+        return cursor;
+    }
 
 }
