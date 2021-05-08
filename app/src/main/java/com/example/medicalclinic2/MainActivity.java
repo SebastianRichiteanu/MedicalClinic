@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         System.out.println("APPOINTMENTS!!!!");
-        databaseHandler.insertAppointment(0,0,date);
+        databaseHandler.insertAppointment(4,4,date);
         Cursor cursor7 = databaseHandler.allDataAppointments();
 
         if(cursor7.getCount() == 0)
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         System.out.println("MEDICATION!!!!");
-        databaseHandler.insertMedication("nume",123.2,0);
+        databaseHandler.insertMedication("nume",123.2,1);
         Cursor cursor8 = databaseHandler.allDataMedication();
 
         if(cursor8.getCount() == 0)
