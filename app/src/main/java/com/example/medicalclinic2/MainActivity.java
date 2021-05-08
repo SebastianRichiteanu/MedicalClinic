@@ -11,16 +11,11 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.sql.Date;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -180,13 +175,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         **/
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String username = extras.getString("username");
-            String password = extras.getString("password");
-            databaseHandler.insertUser(username,password);
-        }
+        databaseHandler.deleteAll();
+        databaseHandler.insertUser("burtigus", "Abcdef1");
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            String username = extras.getString("username");
+//            String password = extras.getString("password");
+//            databaseHandler.insertUser(username,password);
+//        }
 
         System.out.println("USERI!!!!");
         // afisare user
@@ -223,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.login){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
         }
         if (id == R.id.register) {
             Intent intent = new Intent(this, Register.class);

@@ -275,6 +275,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor searchPassword(String userName){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select password from userdata where username LIKE '" + userName + "'", null);
+        return cursor;
+    }
+
     public Cursor allDataUsers(){
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from userdata", null);
