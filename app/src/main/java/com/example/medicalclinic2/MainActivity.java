@@ -24,6 +24,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    public DatabaseHandler databaseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        databaseHandler = new DatabaseHandler(this);
+        
+        /**
         databaseHandler.deleteAll();
 
         System.out.println("USERI!!!!");
@@ -176,12 +179,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        **/
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String username = extras.getString("username");
             String password = extras.getString("password");
             databaseHandler.insertUser(username,password);
+        }
+
+        System.out.println("USERI!!!!");
+        // afisare user
+//        databaseHandler.insertUser("gigel", "GGL");
+//        databaseHandler.insertUser("fratele lui gigel", "GGL2");
+        Cursor cursor = databaseHandler.allDataUsers();
+
+        if(cursor.getCount() == 0)
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
+        else{
+            while(cursor.moveToNext()){
+                System.out.println("Id: " + cursor.getString(0));
+                System.out.println("Username: " + cursor.getString(1));
+                System.out.println("Password: " + cursor.getString(2));
+            }
         }
 
     }

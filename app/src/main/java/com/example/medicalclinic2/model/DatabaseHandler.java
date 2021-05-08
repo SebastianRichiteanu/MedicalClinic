@@ -59,6 +59,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database = getWritableDatabase();
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
