@@ -1,28 +1,17 @@
 package com.example.medicalclinic2.model;
 
 public class User { // extends Person
-    private int id;
     private String username;
     private String password;
 
     public User() {
-        this.id = 0;
         this.username = "burtigus";
         this.password = "sultan";
     }
 
     public User(int id, String username, String password) {
-        this.id = id;
         this.username = username;
         this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {

@@ -1,6 +1,7 @@
 package com.example.medicalclinic2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -11,8 +12,6 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -21,13 +20,16 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public DatabaseHandler databaseHandler;
+    public SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        sp = getSharedPreferences("login", MODE_PRIVATE);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,45 +39,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        databaseHandler = new DatabaseHandler(this);
 
-        //afisare users
-        Cursor cursor = databaseHandler.allData();
+        databaseHandler.deleteAll();
+        databaseHandler.insertUser("burtigus", "Abcdef1");
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            String username = extras.getString("username");
+//            String password = extras.getString("password");
+//            databaseHandler.insertUser(username,password);
+//        }
+
+        System.out.println("USERI!!!!");
+        // afisare user
+//        databaseHandler.insertUser("gigel", "GGL");
+//        databaseHandler.insertUser("fratele lui gigel", "GGL2");
+        Cursor cursor = databaseHandler.allDataUsers();
+
         if(cursor.getCount() == 0)
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
         else{
             while(cursor.moveToNext()){
-//                Toast.makeText(getApplicationContext(), "Username: "+cursor.getString(1), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(), "Password: "+cursor.getString(2), Toast.LENGTH_SHORT).show();
-                    System.out.println("Id: " + cursor.getString(0));
-                  System.out.println("Username: " + cursor.getString(1));
-                  System.out.println("Password: " + cursor.getString(2));
+                System.out.println("Id: " + cursor.getString(0));
+                System.out.println("Username: " + cursor.getString(1));
+                System.out.println("Password: " + cursor.getString(2));
             }
         }
 
-        databaseHandler.deleteAllSupplier();
-        databaseHandler.insertSupplier("name","location");
 
-        //afisare suppliers
-        Cursor cursor2 = databaseHandler.allDataSuppliers();
-        if(cursor2.getCount() == 0)
-            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
-        else{
-            while(cursor2.moveToNext()){
-//                Toast.makeText(getApplicationContext(), "Username: "+cursor.getString(1), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(), "Password: "+cursor.getString(2), Toast.LENGTH_SHORT).show();
-                System.out.println("Id: " + cursor2.getString(0));
-                System.out.println("Name: " + cursor2.getString(1));
-                System.out.println("Location: " + cursor2.getString(2));
-            }
-        }
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String username = extras.getString("username");
-            String password = extras.getString("password");
-            databaseHandler.insertUser(username,password);
-        }
+        System.out.println(sp.getString("username","aaaaaa"));
     }
 
     @Override
@@ -96,9 +88,17 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.login){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        }
         if (id == R.id.register) {
             Intent intent = new Intent(this, Register.class);
             startActivity(intent);
+        }
+        if (id == R.id.logout) {
+            sp.edit().putBoolean("logged", false).apply();
+            // + username
         }
 
         return super.onOptionsItemSelected(item);
