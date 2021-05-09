@@ -1,6 +1,7 @@
 package com.example.medicalclinic2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class Login extends AppCompatActivity {
     private Button login_button;
     private EditText login_username;
     private EditText login_password;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,13 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         login_button = (Button) findViewById(R.id.login_submit);
+
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+
+        if (sp.getBoolean("logged", false)) {
+            goToMainActivity();
+        }
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,10 +43,9 @@ public class Login extends AppCompatActivity {
                 System.out.println("Inainte!!!!!!!!!!");
                 Cursor cursor = databaseHandler.searchUserByUsername(login_username.getText().toString());
                 System.out.println("DUPA!!!!!!!!!!!!");
-                if(cursor.getCount() == 0){
+                if (cursor.getCount() == 0) {
                     login_username.setError("The username doesn't exist!");
-                }
-                else{
+                } else {
                     goodUsername = true;
                 }
 
@@ -45,7 +53,7 @@ public class Login extends AppCompatActivity {
 //                    Cursor cursor1 = databaseHandler.searchPassword(login_username.getText().toString());
                     System.out.println("??????????????");
                     String userPass = "";
-                    while(cursor.moveToNext()){
+                    while (cursor.moveToNext()) {
                         userPass = cursor.getString(2);
                     }
 //                    System.out.println(cursor.getString(2));
@@ -58,13 +66,20 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (goodUsername && goodPass) {
-                    Intent i = new Intent(Login.this, MainActivity.class);
 //                    i.putExtra("username",reg_username.getText().toString());
 //                    i.putExtra("password",register_password.getText().toString());
-                    startActivity(i);
+                    goToMainActivity();
+                    sp.edit().putBoolean("logged", true).apply();
+                    sp.edit().putString("username", login_username.getText().toString()).apply();
                 }
             }
         });
-
     }
-}
+
+        public void goToMainActivity() {
+            Intent i = new Intent(Login.this, MainActivity.class);
+            startActivity(i);
+        }
+    }
+
+
