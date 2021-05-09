@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         NavigationView navigationView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             String username = extras.getString("username");
             String password = extras.getString("password");
-            databaseHandler.insertUser(username,password);
+            String role = extras.getString("role");
+            databaseHandler.insertUser(username, password, role);
         }
 
         System.out.println("USERI!!!!");
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Id: " + cursor.getString(0));
                 System.out.println("Username: " + cursor.getString(1));
                 System.out.println("Password: " + cursor.getString(2));
+                System.out.println("Role: " + cursor.getString(3));
             }
         }
 

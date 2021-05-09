@@ -21,7 +21,7 @@ public class ProfileView extends AppCompatActivity {
         setContentView(R.layout.activity_profile_view);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         username = (TextView) findViewById(R.id.profileview_username);
-        String name = "Username: " + sp.getString("username","You are not logged in");
+        String name = "Hello, " + sp.getString("username","You are not logged in");
         username.setText(name);
     }
 
