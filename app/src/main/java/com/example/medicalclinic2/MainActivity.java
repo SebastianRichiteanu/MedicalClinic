@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(this);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String username = extras.getString("username");
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         System.out.println("USERI!!!!");
-        // afisare user
-//        databaseHandler.insertUser("gigel", "GGL");
-//        databaseHandler.insertUser("fratele lui gigel", "GGL2");
         Cursor cursor = databaseHandler.allDataUsers();
 
         if(cursor.getCount() == 0)
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println(sp.getString("username","aaaaaa"));
     }
 
     @Override
