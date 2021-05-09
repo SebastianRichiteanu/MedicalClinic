@@ -32,12 +32,14 @@ public class Login extends AppCompatActivity {
             goToMainActivity();
         }
 
+
+        login_username = (EditText) findViewById(R.id.login_username);
+        login_password = (EditText) findViewById(R.id.login_password);
+        login_username.setText(sp.getString("username", ""));
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login_username = (EditText) findViewById(R.id.login_username);
-                login_password = (EditText) findViewById(R.id.login_password);
-
                 boolean goodUsername = false;
                 boolean goodPass = false;
                 System.out.println("Inainte!!!!!!!!!!");

@@ -3,6 +3,7 @@ package com.example.medicalclinic2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class Register extends AppCompatActivity {
     private Button register_button;
     private EditText register_username;
     private EditText register_password;
+    public SharedPreferences sp;
 
     public static boolean isValidPassword(final String password) {
 
@@ -39,7 +41,7 @@ public class Register extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        sp = getSharedPreferences("login", MODE_PRIVATE);
         register_button = (Button) findViewById(R.id.register_submit);
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +70,8 @@ public class Register extends AppCompatActivity {
                     Intent i = new Intent(Register.this, MainActivity.class);
                     i.putExtra("username",register_username.getText().toString());
                     i.putExtra("password",register_password.getText().toString());
+                    sp.edit().putBoolean("logged", true).apply();
+                    sp.edit().putString("username", register_username.getText().toString()).apply();
                     startActivity(i);
                 }
             }

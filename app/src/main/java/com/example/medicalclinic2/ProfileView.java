@@ -1,72 +1,28 @@
 package com.example.medicalclinic2;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
-
-import com.example.medicalclinic2.model.DatabaseHandler;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class ProfileView extends AppCompatActivity {
 
-    public DatabaseHandler databaseHandler;
+    private TextView username;
     public SharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_profile_view);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        databaseHandler = new DatabaseHandler(this);
-
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String username = extras.getString("username");
-            String password = extras.getString("password");
-            databaseHandler.insertUser(username,password);
-        }
-
-        System.out.println("USERI!!!!");
-        // afisare user
-//        databaseHandler.insertUser("gigel", "GGL");
-//        databaseHandler.insertUser("fratele lui gigel", "GGL2");
-        Cursor cursor = databaseHandler.allDataUsers();
-
-        if(cursor.getCount() == 0)
-            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
-        else{
-            while(cursor.moveToNext()){
-                System.out.println("Id: " + cursor.getString(0));
-                System.out.println("Username: " + cursor.getString(1));
-                System.out.println("Password: " + cursor.getString(2));
-            }
-        }
-
-
-        System.out.println(sp.getString("username","aaaaaa"));
+        username = (TextView) findViewById(R.id.profileview_username);
+        String name = "Username: " + sp.getString("username","You are not logged in");
+        username.setText(name);
     }
 
     @Override
