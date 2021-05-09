@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.medicalclinic2.model.DatabaseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        NavigationView navigationView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -66,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         System.out.println(sp.getString("username","aaaaaa"));
     }
 
@@ -74,11 +75,30 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(sp.getBoolean("logged", false)){
+            MenuItem item = menu.findItem(R.id.logout);
+            item.setVisible(true);
+            MenuItem itemReg = menu.findItem(R.id.register);
+            itemReg.setVisible(false);
+            MenuItem items = menu.findItem(R.id.login);
+            items.setVisible(false);
+
+        }
+        else {
+            MenuItem item = menu.findItem(R.id.login);
+            item.setVisible(true);
+            MenuItem items = menu.findItem(R.id.logout);
+            items.setVisible(false);
+            MenuItem itemReg = menu.findItem(R.id.register);
+            itemReg.setVisible(true);
+
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -98,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.logout) {
             sp.edit().putBoolean("logged", false).apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             // + username
         }
 
