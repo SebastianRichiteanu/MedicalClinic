@@ -232,7 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertDoctor(String name, String surname, int age, String address, String phone, double salary, String specialization, String username){
+    public boolean insertDoctor(String name, String surname, int age, String address, String phone, String specialization, String username){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("name", name);
@@ -330,6 +330,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from appointmentdata", null);
         return cursor;
     }
+    public Cursor searchUserInPatients(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public Cursor editPatient(String name, String surname, int age, String address, String phone, String condition, String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("update patientdata set name = '" + name + "', surname = '" + surname + "', age = " + Integer.toString(age) +
+                ", address = '" + address + "', phone = '" + phone + "', condition = '" + condition + "' where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public Cursor searchUserInDoctors(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from doctordata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public Cursor editDoctor(String name, String surname, int age, String address, String phone, String specialization, String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("update doctordata set name = '" + name + "' where username LIKE '" + username + "'", null);
+        return cursor;
 
-
+    }
 }

@@ -50,13 +50,15 @@ public class Login extends AppCompatActivity {
                 } else {
                     goodUsername = true;
                 }
-
+                String role = "";
                 if (goodUsername) {
 //                    Cursor cursor1 = databaseHandler.searchPassword(login_username.getText().toString());
                     System.out.println("??????????????");
                     String userPass = "";
+
                     while (cursor.moveToNext()) {
                         userPass = cursor.getString(2);
+                        role = cursor.getString(3);
                     }
 //                    System.out.println(cursor.getString(2));
 //                    System.out.println("!!!!!!!!!!!!!!!!!!!!!");
@@ -68,11 +70,10 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (goodUsername && goodPass) {
-//                    i.putExtra("username",reg_username.getText().toString());
-//                    i.putExtra("password",register_password.getText().toString());
                     goToMainActivity();
                     sp.edit().putBoolean("logged", true).apply();
                     sp.edit().putString("username", login_username.getText().toString()).apply();
+                    sp.edit().putString("role", role).apply();
                 }
             }
         });

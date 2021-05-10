@@ -4,14 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProfileView extends AppCompatActivity {
 
-    private TextView username;
+    private TextView profileview_username;
+    private EditText profileview_name;
+    private EditText profileview_surname;
+    private EditText profileview_age;
+    private EditText profileview_address;
+    private EditText profileview_phoneNo;
+    private EditText profileview_condition;
+    private EditText profileview_specialization;
+    private Button profileview_submit;
     public SharedPreferences sp;
 
 
@@ -20,10 +32,63 @@ public class ProfileView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-        username = (TextView) findViewById(R.id.profileview_username);
-        String name = "Hello, " + sp.getString("username","You are not logged in");
-        username.setText(name);
+        profileview_username = (TextView) findViewById(R.id.profileview_username);
+        profileview_name = (EditText) findViewById(R.id.profileview_name);
+        profileview_surname = (EditText) findViewById(R.id.profileview_surname);
+        profileview_age = (EditText) findViewById(R.id.profileview_age);
+        profileview_address = (EditText) findViewById(R.id.profileview_address);
+        profileview_phoneNo = (EditText) findViewById(R.id.profileview_phoneNo);
+        profileview_condition = (EditText) findViewById(R.id.profileview_condition);
+        profileview_specialization = (EditText) findViewById(R.id.profileview_specialization);
+        profileview_submit = (Button) findViewById(R.id.profileview_submit);
+
+        String hello = "Hello, " + sp.getString("username","You are not logged in");
+        profileview_username.setText(hello);
+        String role = sp.getString("role","");
+
+
+        if (role.equals("Patient")) {
+            profileview_condition.setVisibility(View.VISIBLE);
+            profileview_specialization.setVisibility(View.INVISIBLE);
+        }
+        else if (role.equals("Doctor")) {
+            profileview_condition.setVisibility(View.INVISIBLE);
+            profileview_specialization.setVisibility(View.VISIBLE);
+        }
+
+        profileview_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileView.this, MainActivity.class);
+                String name = profileview_name.getText().toString();
+                String surname = profileview_surname.getText().toString();
+                int age = Integer.parseInt(profileview_age.getText().toString());
+                String address = profileview_address.getText().toString();
+                String phoneNo = profileview_phoneNo.getText().toString();
+
+                i.putExtra("name", name);
+                i.putExtra("surname", surname);
+                i.putExtra("age", age);
+                i.putExtra("address", address);
+                i.putExtra("phoneNo", phoneNo);
+
+                if (role.equals("Patient")) {
+                    String condition = profileview_condition.getText().toString();
+                    i.putExtra("condition", condition);
+                }
+                else if (role.equals("Doctor")) {
+                    String specialization = profileview_specialization.getText().toString();
+                    i.putExtra("specialization", specialization);
+                }
+
+
+                i.putExtra("method", "profileview");
+                startActivity(i);
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
