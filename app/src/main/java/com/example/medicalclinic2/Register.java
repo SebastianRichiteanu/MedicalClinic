@@ -67,7 +67,6 @@ public class Register extends AppCompatActivity {
                 boolean goodPass = false;
                 Cursor cursor = databaseHandler.searchUserByUsername(register_username.getText().toString());
                 if(cursor.getCount() != 0){
-                    System.out.println("EROAREEEEEEE");
                     register_username.setError("The username already exists!");
                     found = true;
                 }

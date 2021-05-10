@@ -42,24 +42,17 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 boolean goodUsername = false;
                 boolean goodPass = false;
-                System.out.println("Inainte!!!!!!!!!!");
                 Cursor cursor = databaseHandler.searchUserByUsername(login_username.getText().toString());
-                System.out.println("DUPA!!!!!!!!!!!!");
                 if (cursor.getCount() == 0) {
                     login_username.setError("The username doesn't exist!");
                 } else {
                     goodUsername = true;
                 }
-
                 if (goodUsername) {
-//                    Cursor cursor1 = databaseHandler.searchPassword(login_username.getText().toString());
-                    System.out.println("??????????????");
                     String userPass = "";
                     while (cursor.moveToNext()) {
                         userPass = cursor.getString(2);
                     }
-//                    System.out.println(cursor.getString(2));
-//                    System.out.println("!!!!!!!!!!!!!!!!!!!!!");
                     if (userPass.equals(login_password.getText().toString())) {
                         goodPass = true;
                     } else {
@@ -68,8 +61,6 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (goodUsername && goodPass) {
-//                    i.putExtra("username",reg_username.getText().toString());
-//                    i.putExtra("password",register_password.getText().toString());
                     goToMainActivity();
                     sp.edit().putBoolean("logged", true).apply();
                     sp.edit().putString("username", login_username.getText().toString()).apply();
