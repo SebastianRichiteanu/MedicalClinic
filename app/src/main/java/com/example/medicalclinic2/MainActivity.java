@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("AAAAAAAAA");
             String method = extras.getString("method", "");
             if (method.equals("Register")) {
+                Intent i = new Intent(MainActivity.this, ProfileView.class);
                 String username = extras.getString("username");
                 String password = extras.getString("password");
                 String role = extras.getString("role");
                 databaseHandler.insertUser(username, password, role);
+                startActivity(i);
             } else {
                 System.out.println("BBBBBBBBB");
                 String username = sp.getString("username", "");
@@ -62,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 int age = extras.getInt("age");
                 String address = extras.getString("address");
                 String phoneNo = extras.getString("phoneNo");
-
-
 
                 if (sp.getString("role", "").equals("Patient")) {
                     System.out.println("CCCCCCCCC");
@@ -89,9 +89,12 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(found);
                     if (found) {
                         databaseHandler.editDoctor(name, surname, age, address, phoneNo, specialization, username);
+                        System.out.println("AM MODIFICAT!!!!!!!!!!!!!!" + username);
                     }
-                    else
+                    else {
                         databaseHandler.insertDoctor(name, surname, age, address, phoneNo, specialization, username);
+
+                    }
                 }
 
 
@@ -133,6 +136,24 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("Username:" + cursor3.getString(7));
                     }
                 }
+            }
+        }
+
+        System.out.println("DOCTORIiIIIIIIIIIIIIIIIIIIIIIIIIIII");
+        Cursor cursor5 = databaseHandler.allDataDoctors();
+        if(cursor5.getCount() == 0) {
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
+        else{
+            while(cursor5.moveToNext()){
+                System.out.println("Id: " + cursor5.getString(0));
+                System.out.println("Name: " + cursor5.getString(1));
+                System.out.println("Surname: " + cursor5.getString(2));
+                System.out.println("Age: " + cursor5.getString(3));
+                System.out.println("Address: " + cursor5.getString(4));
+                System.out.println("Phone: " + cursor5.getString(5));
+                System.out.println("Specialization: " + cursor5.getString(6));
+                System.out.println("Username: " + cursor5.getString(7));
+
             }
         }
 

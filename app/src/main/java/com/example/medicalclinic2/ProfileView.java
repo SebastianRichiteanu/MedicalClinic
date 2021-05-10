@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.medicalclinic2.model.DatabaseHandler;
+
 public class ProfileView extends AppCompatActivity {
 
     private TextView profileview_username;
@@ -30,6 +32,7 @@ public class ProfileView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
         setContentView(R.layout.activity_profile_view);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         profileview_username = (TextView) findViewById(R.id.profileview_username);
@@ -50,10 +53,28 @@ public class ProfileView extends AppCompatActivity {
         if (role.equals("Patient")) {
             profileview_condition.setVisibility(View.VISIBLE);
             profileview_specialization.setVisibility(View.INVISIBLE);
+            Cursor cursorPatient = databaseHandler.searchUserInPatients(sp.getString("username",""));
+            while (cursorPatient.moveToNext()) {
+                profileview_name.setText(cursorPatient.getString(1));
+                profileview_surname.setText(cursorPatient.getString(2));
+                profileview_age.setText(cursorPatient.getString(3));
+                profileview_address.setText(cursorPatient.getString(4));
+                profileview_phoneNo.setText(cursorPatient.getString(5));
+                profileview_condition.setText(cursorPatient.getString(6));
+            }
         }
         else if (role.equals("Doctor")) {
             profileview_condition.setVisibility(View.INVISIBLE);
             profileview_specialization.setVisibility(View.VISIBLE);
+            Cursor cursorDoctor = databaseHandler.searchUserInDoctors(sp.getString("username",""));
+            while (cursorDoctor.moveToNext()) {
+                profileview_name.setText(cursorDoctor.getString(1));
+                profileview_surname.setText(cursorDoctor.getString(2));
+                profileview_age.setText(cursorDoctor.getString(3));
+                profileview_address.setText(cursorDoctor.getString(4));
+                profileview_phoneNo.setText(cursorDoctor.getString(5));
+                profileview_specialization.setText(cursorDoctor.getString(6));
+            }
         }
 
         profileview_submit.setOnClickListener(new View.OnClickListener() {
