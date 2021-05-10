@@ -3,9 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.medicalclinic2.MainActivity">
     <item
+        android:id="@+id/profileview"
+        android:orderInCategory="100"
+        android:title="@string/profileview"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/register"
         android:orderInCategory="100"
         android:title="@string/register"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/login"
+        android:orderInCategory="100"
+        android:title="@string/login"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        android:title="@string/logout"
+        android:visible="false"
         app:showAsAction="never" />
     <item
         android:id="@+id/login"

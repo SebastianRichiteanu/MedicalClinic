@@ -80,9 +80,7 @@ public class MedicalOfficeService {
         personService.updatePhonNo(person, phoneNo);
     }
 
-    public void updateSalary (Doctor doctor, double salary) {
-        doctorService.updateSalary(doctor, salary);
-    }
+
 
     public void updateSpecialization (Doctor doctor, String specialization) {
         doctorService.updateSpecialization(doctor,specialization);
