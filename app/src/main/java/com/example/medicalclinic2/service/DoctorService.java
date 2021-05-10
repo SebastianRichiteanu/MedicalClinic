@@ -20,9 +20,7 @@ public class DoctorService {
         return doc;
     }
 
-    public void updateSalary (Doctor doctor, double salary) {
-        doctor.setSalary(salary);
-    }
+
 
     public void updateSpecialization (Doctor doctor, String specialization) {
         doctor.setSpecialization(specialization);

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalClinic2">
-        <activity android:name=".Login"></activity>
+        <activity android:name=".ProfileView"></activity>
+        <activity android:name=".Login" />
         <activity android:name=".Register" />
         <activity
             android:name=".MainActivity"
