@@ -9,8 +9,15 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="register">Register</string>
     <string name="register_submit">Register</string>
     <string name="register_username">Username</string>
     <string name="register_password">Password</string>
+    <string name="login_password">login_password</string>
+    <string name="login_submit">login_submit</string>
+    <string name="login_username">login_username</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>
