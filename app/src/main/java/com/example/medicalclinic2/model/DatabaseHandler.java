@@ -232,7 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertDoctor(String name, String surname, int age, String address, String phone, double salary, String specialization, String username){
+    public boolean insertDoctor(String name, String surname, int age, String address, String phone, String specialization, String username){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("name", name);
@@ -330,6 +330,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from appointmentdata", null);
         return cursor;
     }
-
-
+    public Cursor searchUserInPatients(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public void editPatient(String name, String surname, int age, String address, String phone, String condition, String username) {
+        database = getWritableDatabase();
+        ContentValues values =  new ContentValues();
+        values.put("name", name);
+        values.put("surname", surname);
+        values.put("age", age);
+        values.put("address", address);
+        values.put("phone", phone);
+        values.put("condition", condition);
+        database.update(TABLE_NAME_PATIENT, values, "username='" + username + "'", null);
+    }
+    public Cursor searchUserInDoctors(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from doctordata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public void editDoctor(String name, String surname, int age, String address, String phone, String specialization, String username) {
+        database = getWritableDatabase();
+        ContentValues values =  new ContentValues();
+        values.put("name", name);
+        values.put("surname", surname);
+        values.put("age", age);
+        values.put("address", address);
+        values.put("phone", phone);
+        values.put("specialization", specialization);
+        database.update(TABLE_NAME_DOCTOR, values, "username='" + username + "'", null);
+    }
 }
