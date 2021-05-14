@@ -42,17 +42,26 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 boolean goodUsername = false;
                 boolean goodPass = false;
+                System.out.println("Inainte!!!!!!!!!!");
                 Cursor cursor = databaseHandler.searchUserByUsername(login_username.getText().toString());
+                System.out.println("DUPA!!!!!!!!!!!!");
                 if (cursor.getCount() == 0) {
                     login_username.setError("The username doesn't exist!");
                 } else {
                     goodUsername = true;
                 }
+                String role = "";
                 if (goodUsername) {
+//                    Cursor cursor1 = databaseHandler.searchPassword(login_username.getText().toString());
+                    System.out.println("??????????????");
                     String userPass = "";
+
                     while (cursor.moveToNext()) {
                         userPass = cursor.getString(2);
+                        role = cursor.getString(3);
                     }
+//                    System.out.println(cursor.getString(2));
+//                    System.out.println("!!!!!!!!!!!!!!!!!!!!!");
                     if (userPass.equals(login_password.getText().toString())) {
                         goodPass = true;
                     } else {
@@ -64,15 +73,15 @@ public class Login extends AppCompatActivity {
                     goToMainActivity();
                     sp.edit().putBoolean("logged", true).apply();
                     sp.edit().putString("username", login_username.getText().toString()).apply();
+                    sp.edit().putString("role", role).apply();
                 }
             }
         });
     }
 
-        public void goToMainActivity() {
-            Intent i = new Intent(Login.this, MainActivity.class);
-            startActivity(i);
-        }
+    public void goToMainActivity() {
+        Intent i = new Intent(Login.this, MainActivity.class);
+        startActivity(i);
     }
-
+}
 

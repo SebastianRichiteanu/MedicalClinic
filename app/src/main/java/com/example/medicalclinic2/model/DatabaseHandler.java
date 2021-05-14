@@ -41,7 +41,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_AGE = "age";
     private static final String COLUMN_ADDRESS = "address";
     private static final String COLUMN_PHONE = "phone";
-    private static final String COLUMN_SALARY = "salary";
     private static final String COLUMN_SPECIALIZATION = "specialization";
     private static final String COLUMN_CONDITION = "condition";
     private static final String COLUMN_LOCATION = "location";
@@ -50,6 +49,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_IDDOCTOR = "idDoctor";
     private static final String COLUMN_IDPATIENT = "idPatient";
+    private static final String COLUMN_ROLE = "role";
+    private static final String COLUMN_IDEXT = "idExt";
+
 
 
     SQLiteDatabase database; //  private!
@@ -64,7 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_USER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT)");
+                COLUMN_USERNAME + " TEXT, " + COLUMN_PASSWORD + " TEXT, " + COLUMN_ROLE + " TEXT)");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_SUPPLIER + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " + COLUMN_LOCATION + " TEXT)");
@@ -75,12 +77,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_DOCTOR + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS +
-                " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_SALARY + " DECIMAL(10,2), " + COLUMN_SPECIALIZATION +
-                " TEXT)");
+                " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_SPECIALIZATION +
+                " TEXT, " + COLUMN_USERNAME + " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
-            + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT)");
+            + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT, " + COLUMN_USERNAME +
+                " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_IDMEDICATION + " INTEGER, " +
                 COLUMN_IDPRESCRIPTION + " INTEGER, " + " PRIMARY KEY ( " + COLUMN_IDMEDICATION + "," + COLUMN_IDPRESCRIPTION + "))");
@@ -106,6 +109,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
        onCreate(db);
     }
+
+
 
     public void deleteAllDoctors() {
         database = getWritableDatabase();
@@ -152,7 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertPatient(String name, String surname, int age, String address, String phone, String condition){
+    public boolean insertPatient(String name, String surname, int age, String address, String phone, String condition, String username){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("name", name);
@@ -161,6 +166,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         initial.put("address", address);
         initial.put("phone", phone);
         initial.put("condition", condition);
+        initial.put("username", username);
         long result = database.insert(TABLE_NAME_PATIENT, null, initial);
         if(result == -1)
             return false;
@@ -170,11 +176,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertUser(String username, String password){
+    public boolean insertUser(String username, String password, String role){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("username", username);
         initial.put("password", password);
+        initial.put("role", role);
         long result = database.insert(TABLE_NAME_USER, null, initial);
         if(result == -1)
             return false;
@@ -223,7 +230,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertDoctor(String name, String surname, int age, String address, String phone, double salary, String specialization){
+    public boolean insertDoctor(String name, String surname, int age, String address, String phone, String specialization, String username){
         database = getWritableDatabase();
         ContentValues initial = new ContentValues();
         initial.put("name", name);
@@ -231,8 +238,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         initial.put("age", age);
         initial.put("address", address);
         initial.put("phone", phone);
-        initial.put("salary", salary);
         initial.put("specialization", specialization);
+        initial.put("username", username);
         long result = database.insert(TABLE_NAME_DOCTOR, null, initial);
         if(result == -1)
             return false;
@@ -309,6 +316,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from appointmentdata", null);
         return cursor;
     }
-
-
+    public Cursor searchUserInPatients(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public void editPatient(String name, String surname, int age, String address, String phone, String condition, String username) {
+        database = getWritableDatabase();
+        ContentValues values =  new ContentValues();
+        values.put("name", name);
+        values.put("surname", surname);
+        values.put("age", age);
+        values.put("address", address);
+        values.put("phone", phone);
+        values.put("condition", condition);
+        database.update(TABLE_NAME_PATIENT, values, "username='" + username + "'", null);
+    }
+    public Cursor searchUserInDoctors(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from doctordata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+    public void editDoctor(String name, String surname, int age, String address, String phone, String specialization, String username) {
+        database = getWritableDatabase();
+        ContentValues values =  new ContentValues();
+        values.put("name", name);
+        values.put("surname", surname);
+        values.put("age", age);
+        values.put("address", address);
+        values.put("phone", phone);
+        values.put("specialization", specialization);
+        database.update(TABLE_NAME_DOCTOR, values, "username='" + username + "'", null);
+    }
 }

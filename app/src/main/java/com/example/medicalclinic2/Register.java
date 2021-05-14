@@ -83,6 +83,7 @@ public class Register extends AppCompatActivity {
                     i.putExtra("username",register_username.getText().toString());
                     i.putExtra("password",register_password.getText().toString());
                     i.putExtra("role", role);
+                    i.putExtra("method", "Register");
 
                     sp.edit().putBoolean("logged", true).apply();
                     sp.edit().putString("username", register_username.getText().toString()).apply();
