@@ -61,6 +61,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database = getWritableDatabase();
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -81,8 +83,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " TEXT, " + COLUMN_USERNAME + " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
-            + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT, " + COLUMN_USERNAME +
+                + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
+                + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT, " + COLUMN_USERNAME +
                 " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_IDMEDICATION + " INTEGER, " +
@@ -98,16 +100,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
-       onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
+        onCreate(db);
     }
 
 
@@ -272,6 +274,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         else {
             return true;
         }
+    }
+
+    public Cursor searchUserByUsername(String userName){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from userdata where username LIKE '" + userName + "'", null);
+        return cursor;
+    }
+
+    public Cursor searchPassword(String userName){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select password from userdata where username LIKE '" + userName + "'", null);
+        return cursor;
     }
 
     public Cursor allDataUsers(){
