@@ -31,8 +31,12 @@
     <string name="specialization">Specialization</string>
     <string name="profileview_submit">Save Changes</string>
     <string name="title_activity_appointments">AppointmentsActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Make an Appointment</string>
+    <string name="tab_text_2">Upcoming Appointments</string>
+    <string name="tab_text_3">Old Appointments</string>
     <string name="action_appointments">Appointments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="submit">Submit</string>
 
 </resources>

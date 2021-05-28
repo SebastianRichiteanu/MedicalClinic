@@ -157,6 +157,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        System.out.println("APOINTMENTS");
+        Cursor cursor7 = databaseHandler.allDataAppointments();
+        if(cursor7.getCount() == 0) {
+            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
+        else{
+            while(cursor7.moveToNext()){
+                System.out.println("Id: " + cursor7.getString(0));
+                System.out.println("idDoctor: " + cursor7.getString(1));
+                System.out.println("idPatient: " + cursor7.getString(2));
+                System.out.println("data: " + cursor7.getString(3));
+            }
+        }
+
     }
 
     @Override

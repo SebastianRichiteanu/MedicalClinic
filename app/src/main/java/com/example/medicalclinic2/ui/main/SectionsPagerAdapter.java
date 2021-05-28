@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.medicalclinic2.FirstFragment;
 import com.example.medicalclinic2.R;
-import com.example.medicalclinic2.SecondFragment;
+import com.example.medicalclinic2.Tab1Patient;
+import com.example.medicalclinic2.Tab2Patient;
+import com.example.medicalclinic2.Tab3Patient;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -19,7 +20,7 @@ import com.example.medicalclinic2.SecondFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -34,10 +35,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position){
             case 0:
-                fragment = new FirstFragment();
+                fragment = new Tab1Patient();
                 break;
             case 1:
-                fragment = new SecondFragment();
+                fragment = new Tab2Patient();
+                break;
+            case 2:
+                fragment = new Tab3Patient();
                 break;
         }
         return fragment;
@@ -51,7 +55,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 2;
+        return 3;
     }
 }

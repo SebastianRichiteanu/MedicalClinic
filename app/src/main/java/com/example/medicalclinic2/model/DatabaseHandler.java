@@ -362,4 +362,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put("specialization", specialization);
         database.update(TABLE_NAME_DOCTOR, values, "username='" + username + "'", null);
     }
+    public Cursor nameAllDoctors() {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from doctordata", null);
+        return cursor;
+    }
+    public Cursor getDoctorIdByName(String name, String surname) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select id from doctordata where name LIKE '" + name + "' and surname = '" + surname + "'",null);
+        return cursor;
+    }
+    public Cursor getPatientIdByUsername(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select id from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+
 }
