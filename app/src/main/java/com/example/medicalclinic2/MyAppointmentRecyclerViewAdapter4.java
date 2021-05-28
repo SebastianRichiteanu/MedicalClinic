@@ -15,26 +15,26 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyAppointmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAppointmentRecyclerViewAdapter.ViewHolder> {
+public class MyAppointmentRecyclerViewAdapter4 extends RecyclerView.Adapter<MyAppointmentRecyclerViewAdapter4.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<String> mValues;
 
-    public MyAppointmentRecyclerViewAdapter(List<DummyItem> items) {
+    public MyAppointmentRecyclerViewAdapter4(List<String> items) {
         mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_tab2_patient, parent, false);
+                .inflate(R.layout.fragment_tab3_patient, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) { // aici pune info despre el din lista
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(String.valueOf(position + 1));
+        holder.mContentView.setText(mValues.get(position));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MyAppointmentRecyclerViewAdapter extends RecyclerView.Adapter<MyApp
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public String mItem;
 
         public ViewHolder(View view) {
             super(view);

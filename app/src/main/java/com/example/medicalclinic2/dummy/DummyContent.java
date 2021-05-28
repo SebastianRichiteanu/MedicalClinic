@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.medicalclinic2.model.DatabaseHandler;
+
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
@@ -27,6 +29,7 @@ public class DummyContent {
 
     static {
         // Add some sample items.
+
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
         }

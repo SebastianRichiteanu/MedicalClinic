@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -375,6 +377,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Cursor getPatientIdByUsername(String username) {
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select id from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Cursor getNewAppointmentsByPatient(int idPatient) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select idDoctor, date from appointmentdata where idPatient = " + idPatient + " and date > '" + currentDate + "' order by date", null);
+        return cursor;
+    }
+    public Cursor getOldAppointmentsByPatient(int idPatient) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select idDoctor, date from appointmentdata where idPatient = " + idPatient + " and date < '" + currentDate + "' order by date", null);
+        return cursor;
+    }
+    public Cursor getDoctorNameById(int idDoctor) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from doctordata where id LIKE '" + idDoctor + "'",null);
         return cursor;
     }
 
