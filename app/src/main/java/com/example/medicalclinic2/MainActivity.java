@@ -215,6 +215,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ProfileView.class);
             startActivity(intent);
         }
+        if (id == R.id.appointments) {
+            Intent intent = new Intent(this, AppointmentsActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
