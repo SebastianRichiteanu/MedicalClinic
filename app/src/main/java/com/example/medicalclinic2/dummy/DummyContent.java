@@ -29,7 +29,6 @@ public class DummyContent {
 
     static {
         // Add some sample items.
-
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
         }
