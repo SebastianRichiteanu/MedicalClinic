@@ -27,39 +27,39 @@
 
     <Button
         android:id="@+id/profileview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="121dp"
+        android:layout_height="165dp"
         android:text="My profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.272" />
-
-    <Button
-        android:id="@+id/appointments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My appointments"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintHorizontal_bias="0.182"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.351" />
 
     <Button
-        android:id="@+id/doctors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/appointments"
+        android:layout_width="164dp"
+        android:layout_height="164dp"
         android:text="My appointments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintHorizontal_bias="0.874"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.352" />
+
+    <Button
+        android:id="@+id/doctors"
+        android:layout_width="165dp"
+        android:layout_height="156dp"
+        android:text="My appointments"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
