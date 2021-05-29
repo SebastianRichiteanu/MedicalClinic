@@ -30,5 +30,15 @@
     <string name="condition">Condition</string>
     <string name="specialization">Specialization</string>
     <string name="profileview_submit">Save Changes</string>
+    <string name="title_activity_appointments">AppointmentsActivity</string>
+    <string name="tab_text_1">Make an Appointment</string>
+    <string name="tab_text_2">Upcoming Appointments</string>
+    <string name="tab_text_3">Old Appointments</string>
+    <string name="action_appointments">Appointments</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="submit">Submit</string>
+    <string name="action_doctors">Doctors</string>
+    <string name="title_activity_doctor">Doctor Activity</string>
+    <string name="myprofilebutton">My profile</string>
 
 </resources>

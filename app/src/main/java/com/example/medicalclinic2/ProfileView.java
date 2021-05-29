@@ -18,6 +18,7 @@ import com.example.medicalclinic2.model.DatabaseHandler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class ProfileView extends AppCompatActivity {
 
     private TextView profileview_username;
@@ -183,7 +184,7 @@ public class ProfileView extends AppCompatActivity {
                 boolean goodSpecialization = false;
 
                 if ( !isValidName(name) ) {
-                    profileview_name.setError("The name must have at least 5 characters!");
+                    profileview_name.setError("The name must have at least 5 characters! The first one should be uppercase!");
                 }
                 else {
                     System.out.println("Nume valid");
@@ -191,7 +192,7 @@ public class ProfileView extends AppCompatActivity {
                 }
 
                 if ( !isValidSurname(surname) ) {
-                    profileview_surname.setError("The surname must have at least 5 characters!");
+                    profileview_surname.setError("The surname must have at least 5 characters! The first one should be uppercase!");
                 }
                 else {
                     System.out.println("Surnume valid");
@@ -276,8 +277,6 @@ public class ProfileView extends AppCompatActivity {
             itemReg.setVisible(false);
             MenuItem items = menu.findItem(R.id.login);
             items.setVisible(false);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(true);
         }
         else {
             MenuItem item = menu.findItem(R.id.login);
@@ -286,8 +285,6 @@ public class ProfileView extends AppCompatActivity {
             items.setVisible(false);
             MenuItem itemReg = menu.findItem(R.id.register);
             itemReg.setVisible(true);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(false);
         }
         return true;
     }
@@ -314,10 +311,6 @@ public class ProfileView extends AppCompatActivity {
         if (id == R.id.logout) {
             Intent intent = new Intent(this, MainActivity.class);
             sp.edit().putBoolean("logged", false).apply();
-            startActivity(intent);
-        }
-        if (id == R.id.profileview) {
-            Intent intent = new Intent(this, ProfileView.class);
             startActivity(intent);
         }
 

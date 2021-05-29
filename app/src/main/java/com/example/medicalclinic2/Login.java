@@ -79,10 +79,9 @@ public class Login extends AppCompatActivity {
         });
     }
 
-        public void goToMainActivity() {
-            Intent i = new Intent(Login.this, MainActivity.class);
-            startActivity(i);
-        }
+    public void goToMainActivity() {
+        Intent i = new Intent(Login.this, MainActivity.class);
+        startActivity(i);
     }
-
+}
 

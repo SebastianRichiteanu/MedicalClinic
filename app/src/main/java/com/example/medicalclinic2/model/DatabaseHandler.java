@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -83,8 +85,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 " TEXT, " + COLUMN_USERNAME + " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_PATIENT + " ( " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
-            + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT, " + COLUMN_USERNAME +
+                + COLUMN_NAME + " TEXT, " + COLUMN_SURNAME + " TEXT, " + COLUMN_AGE + " INTEGER, " + COLUMN_ADDRESS
+                + " TEXT, " + COLUMN_PHONE + " TEXT, " + COLUMN_CONDITION + " TEXT, " + COLUMN_USERNAME +
                 " TEXT, FOREIGN KEY( " + COLUMN_USERNAME + ") REFERENCES " + TABLE_NAME_USER + " (" + COLUMN_USERNAME + "))");
 
         db.execSQL("CREATE TABLE " + TABLE_NAME_MEDPRESC + " ( " + COLUMN_IDMEDICATION + " INTEGER, " +
@@ -100,16 +102,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
-       onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DOCTOR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PATIENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SUPPLIER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MEDPRESC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PRESCRIPTION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_APPOINTMENT);
+        onCreate(db);
     }
 
 
@@ -362,4 +364,60 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put("specialization", specialization);
         database.update(TABLE_NAME_DOCTOR, values, "username='" + username + "'", null);
     }
+    public Cursor nameAllDoctors() {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from doctordata", null);
+        return cursor;
+    }
+    public Cursor getDoctorIdByName(String name, String surname) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select id from doctordata where name LIKE '" + name + "' and surname = '" + surname + "'",null);
+        return cursor;
+    }
+    public Cursor getPatientIdByUsername(String username) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select id from patientdata where username LIKE '" + username + "'", null);
+        return cursor;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Cursor getNewAppointmentsByPatient(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date >= '" + currentDate + "' and idPatient = " + id + " order by date",null);
+        return cursor;
+    }
+    public Cursor getOldAppointmentsByPatient(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date < '" + currentDate + "' and idPatient = " + id + " order by date",null);
+
+        return cursor;
+    }
+    public Cursor getDoctorNameById(int idDoctor) {
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from doctordata where id LIKE '" + idDoctor + "'",null);
+        return cursor;
+    }
+
+    public Cursor getOldAppointmentByDoctor(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date < '" + currentDate + "' and idDoctor = " + id + " order by date",null);
+        return cursor;
+    }
+
+    public Cursor getNewAppointmentByDoctor(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date >= '" + currentDate + "' and idDoctor = " + id + " order by date",null);
+        return cursor;
+    }
+
+    public Cursor getPatientName(int id){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from patientdata where id = " + id,null);
+        return cursor;
+    }
+
 }
