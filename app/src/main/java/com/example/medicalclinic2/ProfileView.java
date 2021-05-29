@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import com.example.medicalclinic2.model.DatabaseHandler;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public class ProfileView extends AppCompatActivity {
 
     private TextView profileview_username;
@@ -168,6 +172,16 @@ public class ProfileView extends AppCompatActivity {
                 int age = Integer.parseInt(profileview_age.getText().toString());
                 String address = profileview_address.getText().toString();
                 String phoneNo = profileview_phoneNo.getText().toString();
+                String condition = profileview_condition.getText().toString();
+                String specialization = profileview_specialization.getText().toString();
+
+                boolean goodName = false;
+                boolean goodSurname = false;
+                boolean goodAge = false;
+                boolean goodAddress = false;
+                boolean goodPhone = false;
+                boolean goodCondition = false;
+                boolean goodSpecialization = false;
 
                 if ( !isValidName(name) ) {
                     profileview_name.setError("The name must have at least 5 characters! The first one should be uppercase!");
@@ -210,17 +224,42 @@ public class ProfileView extends AppCompatActivity {
                 }
 
                 if (role.equals("Patient")) {
-                    String condition = profileview_condition.getText().toString();
-                    i.putExtra("condition", condition);
+                    if ( !isValidCondition(condition) ) {
+                        profileview_condition.setError("The condition must have at least 5 characters!");
+                    }
+                    else {
+                        System.out.println("Condition valid");
+                        goodCondition = true;
+                    }
                 }
                 else if (role.equals("Doctor")) {
-                    String specialization = profileview_specialization.getText().toString();
-                    i.putExtra("specialization", specialization);
+                    if ( !isValidSpecialization(specialization) ) {
+                        profileview_specialization.setError("The specialization must have at least 5 characters!");
+                    }
+                    else {
+                        System.out.println("Specialization valid");
+                        goodSpecialization = true;
+                    }
                 }
 
+                if( goodName && goodSurname && goodAge && goodAddress && goodPhone && (goodCondition || goodSpecialization) ) {
+                    i.putExtra("name", name);
+                    i.putExtra("surname", surname);
+                    i.putExtra("age", age);
+                    i.putExtra("address", address);
+                    i.putExtra("phoneNo", phoneNo);
 
-                i.putExtra("method", "profileview");
-                startActivity(i);
+                    if (role.equals("Patient")) {
+                        i.putExtra("condition", condition);
+                    }
+                    else if (role.equals("Doctor")) {
+                        i.putExtra("specialization", specialization);
+                    }
+
+
+                    i.putExtra("method", "profileview");
+                    startActivity(i);
+                }
             }
         });
 

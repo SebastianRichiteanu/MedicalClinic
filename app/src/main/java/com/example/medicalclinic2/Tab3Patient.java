@@ -70,13 +70,13 @@ public class Tab3Patient extends Fragment {
         ArrayList<String> appointmentsList = new ArrayList<>();
         Cursor getNewAppointmentsByPatient = databaseHandler.getOldAppointmentsByPatient(idPatient);
         while(getNewAppointmentsByPatient.moveToNext()) {
-            int idDoctor = getNewAppointmentsByPatient.getInt(0);
+            int idDoctor = getNewAppointmentsByPatient.getInt(1);
             Cursor getDoctorNameById = databaseHandler.getDoctorNameById(idDoctor);
             String name = "";
             while (getDoctorNameById.moveToNext()) {
                 name = getDoctorNameById.getString(0) + " " + getDoctorNameById.getString(1);
             }
-            String date = getNewAppointmentsByPatient.getString(1);
+            String date = getNewAppointmentsByPatient.getString(3);
             appointmentsList.add(date + " | " + name);
         }
 

@@ -39,7 +39,7 @@
     <item
         android:id="@+id/doctors"
         android:orderInCategory="100"
-        android:title="@string/doctors"
+        android:title="@string/action_doctors"
         app:showAsAction="never" />
 
 

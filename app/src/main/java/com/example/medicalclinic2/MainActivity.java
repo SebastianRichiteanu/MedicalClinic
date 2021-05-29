@@ -185,6 +185,17 @@ public class MainActivity extends AppCompatActivity {
             items.setVisible(false);
             MenuItem itemProfile = menu.findItem(R.id.profileview);
             itemProfile.setVisible(true);
+            if (sp.getString("role","").equals("Patient")) {
+                MenuItem itemDoctors = menu.findItem(R.id.doctors);
+                itemDoctors.setVisible(false);
+                MenuItem itemPatient = menu.findItem(R.id.appointments);
+                itemPatient.setVisible(true);
+            } else {
+                MenuItem itemDoctors = menu.findItem(R.id.doctors);
+                itemDoctors.setVisible(true);
+                MenuItem itemPatient = menu.findItem(R.id.appointments);
+                itemPatient.setVisible(false);
+            }
         }
         else {
             MenuItem item = menu.findItem(R.id.login);
@@ -195,6 +206,10 @@ public class MainActivity extends AppCompatActivity {
             itemReg.setVisible(true);
             MenuItem itemProfile = menu.findItem(R.id.profileview);
             itemProfile.setVisible(false);
+            MenuItem itemDoctors = menu.findItem(R.id.doctors);
+            itemDoctors.setVisible(false);
+            MenuItem itemPatient = menu.findItem(R.id.appointments);
+            itemPatient.setVisible(false);
         }
         return true;
     }
@@ -232,6 +247,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AppointmentsActivity.class);
             startActivity(intent);
         }
+        if (id == R.id.doctors) {
+            Intent intent = new Intent(this, DoctorActivity.class);
+            startActivity(intent);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

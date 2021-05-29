@@ -98,6 +98,7 @@ public class Tab1Patient extends Fragment {
         Button appointment_submit = (Button) view.findViewById(R.id.appointment_submit);
         CalendarView appointment_calendar = (CalendarView) view.findViewById(R.id.appointment_calendar);
         final String[] date = {""};
+
         appointment_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +117,11 @@ public class Tab1Patient extends Fragment {
                 }
                 databaseHandler.insertAppointment(idDoctor, idPatient, Date.valueOf(date[0]));
 
-                ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.view_pager);
-                viewPager.setCurrentItem(1);
+
+                Intent i = new Intent(getActivity(), MainActivity.class);
+                startActivity(i);
+
+
 
             }
         });
@@ -126,6 +130,7 @@ public class Tab1Patient extends Fragment {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
+                month += 1;
                 date[0] = year + "-" + month + "-" + dayOfMonth;
             }
         });

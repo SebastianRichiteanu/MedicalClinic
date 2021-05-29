@@ -381,21 +381,42 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Cursor getNewAppointmentsByPatient(int idPatient) {
+    public Cursor getNewAppointmentsByPatient(int id) {
         database = getWritableDatabase();
         LocalDate currentDate = java.time.LocalDate.now();
-        Cursor cursor = database.rawQuery("select idDoctor, date from appointmentdata where idPatient = " + idPatient + " and date > '" + currentDate + "' order by date", null);
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date >= '" + currentDate + "' and idPatient = " + id + " order by date",null);
         return cursor;
     }
-    public Cursor getOldAppointmentsByPatient(int idPatient) {
+    public Cursor getOldAppointmentsByPatient(int id) {
         database = getWritableDatabase();
         LocalDate currentDate = java.time.LocalDate.now();
-        Cursor cursor = database.rawQuery("select idDoctor, date from appointmentdata where idPatient = " + idPatient + " and date < '" + currentDate + "' order by date", null);
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date < '" + currentDate + "' and idPatient = " + id + " order by date",null);
+
         return cursor;
     }
     public Cursor getDoctorNameById(int idDoctor) {
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select name, surname from doctordata where id LIKE '" + idDoctor + "'",null);
+        return cursor;
+    }
+
+    public Cursor getOldAppointmentByDoctor(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date < '" + currentDate + "' and idDoctor = " + id + " order by date",null);
+        return cursor;
+    }
+
+    public Cursor getNewAppointmentByDoctor(int id) {
+        database = getWritableDatabase();
+        LocalDate currentDate = java.time.LocalDate.now();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date >= '" + currentDate + "' and idDoctor = " + id + " order by date",null);
+        return cursor;
+    }
+
+    public Cursor getPatientName(int id){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select name, surname from patientdata where id = " + id,null);
         return cursor;
     }
 
