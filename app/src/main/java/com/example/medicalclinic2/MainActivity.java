@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button myprofile_button;
@@ -281,4 +283,34 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed () {
+//        super .onClose(); ;
+        System.out.println("STOPP");
+        if (sp.getBoolean("logged", false) && sp.getString("role","").equals("Patient")) {
+            String username = sp.getString("username", "user");
+            Cursor idUsername = databaseHandler.getPatientIdByUsername(username);
+
+            int id = -1;
+            while(idUsername.moveToNext()){
+                System.out.println("Id: " + idUsername.getInt(0));
+                id = idUsername.getInt(0);
+            }
+            System.out.println("STOP ID");
+            System.out.println(id);
+            if (id != -1) {
+                LocalDate localDate = java.time.LocalDate.now();
+                Cursor cursor = databaseHandler.checkAppointment(id, localDate);
+                if (cursor.getCount() != 0) {
+                    System.out.println("NOTI");
+                    startService(new Intent(this, NotificationService.class));
+                }
+            }
+        }
+        finish();
+    }
+//    public void closeApp (View view) {
+//        finish() ;
+//    }
 }
