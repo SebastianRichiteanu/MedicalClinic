@@ -330,6 +330,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery("select * from appointmentdata", null);
         return cursor;
     }
+
     public Cursor searchUserInPatients(String username) {
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from patientdata where username LIKE '" + username + "'", null);
@@ -362,4 +363,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put("specialization", specialization);
         database.update(TABLE_NAME_DOCTOR, values, "username='" + username + "'", null);
     }
+
+
+
+    public Cursor checkAppointment(int id, LocalDate date){
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from appointmentdata where date = '" + date + "' and idPatient = " + id, null);
+        return cursor;
+    }
+
+
 }
