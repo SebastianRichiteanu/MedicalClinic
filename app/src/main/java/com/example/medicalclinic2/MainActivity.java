@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button appointments_button;
     public DatabaseHandler databaseHandler;
     public SharedPreferences sp;
+    public SharedPreferences sp_settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-
+        sp_settings = getSharedPreferences("settings", MODE_PRIVATE);
 
         databaseHandler = new DatabaseHandler(this);
 
@@ -289,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed () {
 //        super .onClose(); ;
-        System.out.println("STOPP");
+
         if (sp.getBoolean("logged", false) && sp.getString("role","").equals("Patient")) {
             String username = sp.getString("username", "user");
             Cursor idUsername = databaseHandler.getPatientIdByUsername(username);
@@ -299,13 +300,11 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Id: " + idUsername.getInt(0));
                 id = idUsername.getInt(0);
             }
-            System.out.println("STOP ID");
             System.out.println(id);
             if (id != -1) {
                 LocalDate localDate = java.time.LocalDate.now();
                 Cursor cursor = databaseHandler.checkAppointment(id, localDate);
-                if (cursor.getCount() != 0) {
-                    System.out.println("NOTI");
+                if (cursor.getCount() != 0 && sp_settings.getBoolean("send_notifications", false) == true) {
                     startService(new Intent(this, NotificationService.class));
                 }
             }

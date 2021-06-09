@@ -55,5 +55,23 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="contact_info">
+        Contact and information:\n\n
+        Customer support Tel: +40 734 176 198\n
+        Email: support.MedicalClinic@gmail.com\n
+        \n
+
+        Creators: \n
+            Burtiguș Mihai - burtiga.mihai1@yahoo.com\n
+            Hernest Mihai - mihai.hernest99@gmail.com\n
+            Necula Narcis - narcis.necula00@gmail.com\n
+            Richițeanu Sebastian - seba.ry@gmail.com\n
+        \n
+        Customer support open 24/7.\n
+        Aplication created using Android Studio 4.1\n
+        Programming language: Java\n
+        Version: 2.1\n
+
+    </string>
 
 </resources>
