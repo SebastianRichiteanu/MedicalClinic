@@ -3,8 +3,10 @@ package com.example.medicalclinic2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,6 +23,8 @@ import com.example.medicalclinic2.ui.main.SectionsPagerAdapter;
 
 import java.lang.reflect.Array;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import android.content.SharedPreferences;
@@ -100,6 +104,7 @@ public class Tab1Patient extends Fragment {
         final String[] date = {""};
 
         appointment_submit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -115,14 +120,17 @@ public class Tab1Patient extends Fragment {
                 while (getPatientIdByUsername.moveToNext()) {
                     idPatient = getPatientIdByUsername.getInt(0);
                 }
+
+                if (date[0].equals("")) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    String current_date = dtf.format(now);
+                    String[] current = current_date.split("/");
+                    date[0] = current[0] + "-" + current[1] + "-" + current[2];
+                }
                 databaseHandler.insertAppointment(idDoctor, idPatient, Date.valueOf(date[0]));
-
-
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
-
-
-
             }
         });
 

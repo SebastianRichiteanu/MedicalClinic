@@ -18,10 +18,14 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button myprofile_button;
+    private Button doctors_button;
+    private Button appointments_button;
     public DatabaseHandler databaseHandler;
     public SharedPreferences sp;
 
@@ -34,14 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         databaseHandler = new DatabaseHandler(this);
 
@@ -171,6 +168,53 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        myprofile_button = (Button) findViewById(R.id.profileview);
+        doctors_button = (Button) findViewById(R.id.doctors);
+        appointments_button = (Button) findViewById(R.id.appointments);
+
+        System.out.println(sp.getBoolean("logged", false));
+
+        if (sp.getBoolean("logged", false) == false) {
+            myprofile_button.setVisibility(View.INVISIBLE);
+            doctors_button.setVisibility(View.INVISIBLE);
+            appointments_button.setVisibility(View.INVISIBLE);
+        } else {
+            myprofile_button.setVisibility(View.VISIBLE);
+            myprofile_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, ProfileView.class);
+                    startActivity(i);
+                }
+            });
+
+            String role = sp.getString("role", "");
+
+            if (role.equals("Patient")) {
+                doctors_button.setVisibility(View.INVISIBLE);
+                appointments_button.setVisibility(View.VISIBLE);
+
+                appointments_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            } else if (role.equals("Doctor")) {
+                doctors_button.setVisibility(View.VISIBLE);
+                appointments_button.setVisibility(View.INVISIBLE);
+
+                doctors_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, DoctorActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
+
     }
 
     @Override
@@ -184,19 +228,6 @@ public class MainActivity extends AppCompatActivity {
             itemReg.setVisible(false);
             MenuItem items = menu.findItem(R.id.login);
             items.setVisible(false);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(true);
-            if (sp.getString("role","").equals("Patient")) {
-                MenuItem itemDoctors = menu.findItem(R.id.doctors);
-                itemDoctors.setVisible(false);
-                MenuItem itemPatient = menu.findItem(R.id.appointments);
-                itemPatient.setVisible(true);
-            } else {
-                MenuItem itemDoctors = menu.findItem(R.id.doctors);
-                itemDoctors.setVisible(true);
-                MenuItem itemPatient = menu.findItem(R.id.appointments);
-                itemPatient.setVisible(false);
-            }
         }
         else {
             MenuItem item = menu.findItem(R.id.login);
@@ -205,12 +236,6 @@ public class MainActivity extends AppCompatActivity {
             items.setVisible(false);
             MenuItem itemReg = menu.findItem(R.id.register);
             itemReg.setVisible(true);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(false);
-            MenuItem itemDoctors = menu.findItem(R.id.doctors);
-            itemDoctors.setVisible(false);
-            MenuItem itemPatient = menu.findItem(R.id.appointments);
-            itemPatient.setVisible(false);
         }
         return true;
     }
@@ -225,8 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            return true;
         }
         if (id == R.id.login){
             Intent intent = new Intent(this, Login.class);
@@ -241,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
             sp.edit().putBoolean("logged", false).apply();
             startActivity(intent);
         }
-        if (id == R.id.profileview) {
+/*        if (id == R.id.profileview) {
             Intent intent = new Intent(this, ProfileView.class);
             startActivity(intent);
         }
@@ -252,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.doctors) {
             Intent intent = new Intent(this, DoctorActivity.class);
             startActivity(intent);
-        }
+        }*/
 
 
         return super.onOptionsItemSelected(item);

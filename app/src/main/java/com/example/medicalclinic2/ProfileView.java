@@ -262,9 +262,7 @@ public class ProfileView extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -277,8 +275,6 @@ public class ProfileView extends AppCompatActivity {
             itemReg.setVisible(false);
             MenuItem items = menu.findItem(R.id.login);
             items.setVisible(false);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(true);
         }
         else {
             MenuItem item = menu.findItem(R.id.login);
@@ -287,14 +283,13 @@ public class ProfileView extends AppCompatActivity {
             items.setVisible(false);
             MenuItem itemReg = menu.findItem(R.id.register);
             itemReg.setVisible(true);
-            MenuItem itemProfile = menu.findItem(R.id.profileview);
-            itemProfile.setVisible(false);
         }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -317,10 +312,7 @@ public class ProfileView extends AppCompatActivity {
             sp.edit().putBoolean("logged", false).apply();
             startActivity(intent);
         }
-        if (id == R.id.profileview) {
-            Intent intent = new Intent(this, ProfileView.class);
-            startActivity(intent);
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
