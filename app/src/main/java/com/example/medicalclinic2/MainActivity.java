@@ -251,9 +251,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.login){
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
@@ -265,6 +262,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.logout) {
             Intent intent = new Intent(this, MainActivity.class);
             sp.edit().putBoolean("logged", false).apply();
+            startActivity(intent);
+        }
+        if (id == R.id.action_settings) {
+            System.out.println("Settings");
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
 /*        if (id == R.id.profileview) {
