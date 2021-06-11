@@ -13,7 +13,10 @@ The UML Diagram for an android app for managing a Medical Clinic.
 [Feedback and issues resolved](https://github.com/SebastianRichiteanu/MedicalClinic/issues) : We released a beta version 1.0 to a test group and we colected feedback(wich we show as screenshots) and we solved and adressed every complain and issue.
 
 [1. Appointment view](https://github.com/SebastianRichiteanu/MedicalClinic/issues/15)
+[2. Generic icon change](https://github.com/SebastianRichiteanu/MedicalClinic/issues/14)
+[3. Doctor and patient separate login](https://github.com/SebastianRichiteanu/MedicalClinic/issues/13)
 
+# Contact
 Creators: Richițeanu Mihai Sebastian - richi.mihaita12@gmail.ro
 	        Burtigus Mihai - burtiga.mihai1@yahoo.com
 	        Hernest Mihai - mihai.hernest99@gmail.com
