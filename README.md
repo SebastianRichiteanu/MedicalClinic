@@ -8,6 +8,12 @@ The UML Diagram for an android app for managing a Medical Clinic.
 
 [Prezentare video]()
 
+# Unit Testing
+![Unit Testing](https://user-images.githubusercontent.com/62207063/121683668-631b4900-cac6-11eb-91c9-24f48091469b.png)
+
+# User Stories
+![1. Appointment view](https://user-images.githubusercontent.com/62207063/121683878-a70e4e00-cac6-11eb-8730-8b723043778e.png)
+
 Creators: Richițeanu Mihai Sebastian - richi.mihaita12@gmail.ro
 	        Burtigus Mihai - burtiga.mihai1@yahoo.com
 	        Hernest Mihai - mihai.hernest99@gmail.com
