@@ -17,6 +17,11 @@ The UML Diagram for an android app for managing a Medical Clinic.
 3. [Doctor and patient separate login](https://github.com/SebastianRichiteanu/MedicalClinic/issues/13)
 4. [Appointment notifications](https://github.com/SebastianRichiteanu/MedicalClinic/issues/11)
 5. [App Settings](https://github.com/SebastianRichiteanu/MedicalClinic/issues/10)
+6. [Appointment schedule](https://github.com/SebastianRichiteanu/MedicalClinic/issues/9)
+7. [Navigation bar](https://github.com/SebastianRichiteanu/MedicalClinic/issues/8)
+8. [Interface](https://github.com/SebastianRichiteanu/MedicalClinic/issues/7)
+9. [Profile view](https://github.com/SebastianRichiteanu/MedicalClinic/issues/5)
+10. [Login system](https://github.com/SebastianRichiteanu/MedicalClinic/issues/4)
 
 # Contact
 Creators: Richițeanu Mihai Sebastian - richi.mihaita12@gmail.ro
