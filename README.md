@@ -9,6 +9,9 @@ The UML Diagram for an android app for managing a Medical Clinic.
 # Unit Testing
 ![Unit Testing](https://user-images.githubusercontent.com/62207063/121683668-631b4900-cac6-11eb-91c9-24f48091469b.png)
 
+# Build Tool
+![Build Tool](https://user-images.githubusercontent.com/62207063/121685149-42ec8980-cac8-11eb-938f-c16963b26d21.png)
+
 # User Stories
 [Feedback and issues resolved](https://github.com/SebastianRichiteanu/MedicalClinic/issues) : We released a beta version 1.0 to a test group and we colected feedback(wich we show as screenshots) and we solved and adressed every complain and issue.
 
@@ -22,6 +25,11 @@ The UML Diagram for an android app for managing a Medical Clinic.
 8. [Interface](https://github.com/SebastianRichiteanu/MedicalClinic/issues/7)
 9. [Profile view](https://github.com/SebastianRichiteanu/MedicalClinic/issues/5)
 10. [Login system](https://github.com/SebastianRichiteanu/MedicalClinic/issues/4)
+
+# Bugs
+1. [Not testing wrong names](https://github.com/SebastianRichiteanu/MedicalClinic/issues/18)
+2. [Menu item wrong position](https://github.com/SebastianRichiteanu/MedicalClinic/issues/17)
+3. [Database double entries](https://github.com/SebastianRichiteanu/MedicalClinic/issues/16)
 
 # Contact
 Creators: Richițeanu Mihai Sebastian - richi.mihaita12@gmail.ro
