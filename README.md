@@ -10,7 +10,7 @@ The UML Diagram for an android app for managing a Medical Clinic.
 ![Unit Testing](https://user-images.githubusercontent.com/62207063/121683668-631b4900-cac6-11eb-91c9-24f48091469b.png)
 
 # Build Tool
-Our project is developed using Andorid Studio IDE that has a Gradle-based building tool. When we want to build our project in an APK, so that we can give it to our users to install the application and use it, we go to: 
+Our project is developed using Andorid Studio IDE that has a Gradle-based building tool. When we want to build our project in an APK, so that we can give it to our users to install the application and use it, we go to:                                
 ![image](https://user-images.githubusercontent.com/62207063/121685936-387ebf80-cac9-11eb-9935-e16554899cdb.png)
 
 and click Build APK. Then, in the folder our project is in, it generates 2 files: 
