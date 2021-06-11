@@ -74,7 +74,6 @@ public class Register extends AppCompatActivity {
                 if(register_password.getText().toString().length()<8 &&!isValidPassword(register_password.getText().toString())){
                     register_password.setError("The password must contain at least one uppercase letter and at least one digit");
                 }else{
-                    System.out.println("Valid");
                     goodPass = true;
                 }
 

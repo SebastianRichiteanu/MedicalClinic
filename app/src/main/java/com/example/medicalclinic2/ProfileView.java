@@ -50,7 +50,6 @@ public class ProfileView extends AppCompatActivity {
         Matcher matcher;
 
         int len = surname.length();
-        System.out.println("Surname" + len);
 
         final String SURNAME_PATTERN = "^([A-Z][-,a-z]+)";
         pattern = Pattern.compile(SURNAME_PATTERN);
@@ -187,7 +186,6 @@ public class ProfileView extends AppCompatActivity {
                     profileview_name.setError("The name must have at least 5 characters! The first one should be uppercase!");
                 }
                 else {
-                    System.out.println("Nume valid");
                     goodName = true;
                 }
 
@@ -195,7 +193,6 @@ public class ProfileView extends AppCompatActivity {
                     profileview_surname.setError("The surname must have at least 5 characters! The first one should be uppercase!");
                 }
                 else {
-                    System.out.println("Surnume valid");
                     goodSurname = true;
                 }
 
@@ -203,7 +200,6 @@ public class ProfileView extends AppCompatActivity {
                     profileview_age.setError("The age must be between 0 and 99!");
                 }
                 else {
-                    System.out.println("Age valid");
                     goodAge = true;
                 }
 
@@ -211,7 +207,6 @@ public class ProfileView extends AppCompatActivity {
                     profileview_address.setError("The address must not be empty!");
                 }
                 else {
-                    System.out.println("Address valid");
                     goodAddress = true;
                 }
 
@@ -219,7 +214,6 @@ public class ProfileView extends AppCompatActivity {
                     profileview_phoneNo.setError("The phone number must have exactly 10 digits, and start with 0!");
                 }
                 else {
-                    System.out.println("Phone valid");
                     goodPhone = true;
                 }
 
@@ -228,7 +222,6 @@ public class ProfileView extends AppCompatActivity {
                         profileview_condition.setError("The condition must have at least 5 characters!");
                     }
                     else {
-                        System.out.println("Condition valid");
                         goodCondition = true;
                     }
                 }
@@ -237,7 +230,6 @@ public class ProfileView extends AppCompatActivity {
                         profileview_specialization.setError("The specialization must have at least 5 characters!");
                     }
                     else {
-                        System.out.println("Specialization valid");
                         goodSpecialization = true;
                     }
                 }

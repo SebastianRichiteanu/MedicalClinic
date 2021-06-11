@@ -72,23 +72,18 @@ public class Tab1Doctor extends Fragment {
         while (searchUserInDoctors.moveToNext()) {
             idDoctor = searchUserInDoctors.getInt(0);
         }
-        System.out.println(idDoctor);
         Cursor c = databaseHandler.getNewAppointmentByDoctor(idDoctor);
         List<String> data = new ArrayList<>();
             while(c.moveToNext()) {
-                System.out.println(c.getInt(2));
                 Cursor c2 = databaseHandler.getPatientName(c.getInt(2));
                 String name = "";
                 String surname = "";
                 while (c2.moveToNext()){
                     name = c2.getString(0);
                     surname = c2.getString(1);
-                    System.out.println(name+" "+surname+"\n");
                 }
                 data.add(c.getString(3) + " | " + name + " " + surname);
             }
-        System.out.println("!!!!!!");
-        System.out.println();
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();

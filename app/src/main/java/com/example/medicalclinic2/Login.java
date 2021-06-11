@@ -42,9 +42,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 boolean goodUsername = false;
                 boolean goodPass = false;
-                System.out.println("Inainte!!!!!!!!!!");
                 Cursor cursor = databaseHandler.searchUserByUsername(login_username.getText().toString());
-                System.out.println("DUPA!!!!!!!!!!!!");
                 if (cursor.getCount() == 0) {
                     login_username.setError("The username doesn't exist!");
                 } else {
@@ -52,16 +50,12 @@ public class Login extends AppCompatActivity {
                 }
                 String role = "";
                 if (goodUsername) {
-//                    Cursor cursor1 = databaseHandler.searchPassword(login_username.getText().toString());
-                    System.out.println("??????????????");
                     String userPass = "";
 
                     while (cursor.moveToNext()) {
                         userPass = cursor.getString(2);
                         role = cursor.getString(3);
                     }
-//                    System.out.println(cursor.getString(2));
-//                    System.out.println("!!!!!!!!!!!!!!!!!!!!!");
                     if (userPass.equals(login_password.getText().toString())) {
                         goodPass = true;
                     } else {

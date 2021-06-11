@@ -56,7 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
-    SQLiteDatabase database; //  private!
+    SQLiteDatabase database;
 
     public DatabaseHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

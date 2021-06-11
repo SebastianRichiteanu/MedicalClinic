@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            System.out.println("AAAAAAAAA");
             String method = extras.getString("method", "");
             if (method.equals("Register")) {
                 Intent i = new Intent(MainActivity.this, ProfileView.class);
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 databaseHandler.insertUser(username, password, role);
                 startActivity(i);
             } else {
-                System.out.println("BBBBBBBBB");
                 String username = sp.getString("username", "");
                 String name = extras.getString("name");
                 String surname = extras.getString("surname");
@@ -67,30 +65,25 @@ public class MainActivity extends AppCompatActivity {
                 String phoneNo = extras.getString("phoneNo");
 
                 if (sp.getString("role", "").equals("Patient")) {
-                    System.out.println("CCCCCCCCC");
                     String condition = extras.getString("condition");
                     Cursor cursorPatient = databaseHandler.searchUserInPatients(username);
                     boolean found = false;
                     while(cursorPatient.moveToNext()){
                         found = true;
                     }
-                    System.out.println(found);
                     if (found)
                         databaseHandler.editPatient(name, surname, age, address, phoneNo, condition, username);
                     else
                         databaseHandler.insertPatient(name, surname, age, address, phoneNo, condition, username);
                 } else if (sp.getString("role", "").equals("Doctor")) {
-                    System.out.println("DDDDDDDD");
                     String specialization = extras.getString("specialization");
                     Cursor cursorDoctor = databaseHandler.searchUserInDoctors(username);
                     boolean found = false;
                     while (cursorDoctor.moveToNext()) {
                         found = true;
                     }
-                    System.out.println(found);
                     if (found) {
                         databaseHandler.editDoctor(name, surname, age, address, phoneNo, specialization, username);
-                        System.out.println("AM MODIFICAT!!!!!!!!!!!!!!" + username);
                     }
                     else {
                         databaseHandler.insertDoctor(name, surname, age, address, phoneNo, specialization, username);
@@ -103,79 +96,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("USERI!!!!");
-        Cursor cursor = databaseHandler.allDataUsers();
 
-        if(cursor.getCount() == 0)
-            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();
-        else{
-            while(cursor.moveToNext()){
-                System.out.println("Id: " + cursor.getString(0));
-                System.out.println("Username: " + cursor.getString(1));
-                System.out.println("Password: " + cursor.getString(2));
-                System.out.println("Role: " +  cursor.getString(3));
-                if (cursor.getString(3).equals("Patient")) {
-                    Cursor cursor3 = databaseHandler.searchUserInPatients(cursor.getString(1));
-                    while(cursor3.moveToNext()) {
-                        System.out.println("Name:" + cursor3.getString(1));
-                        System.out.println("Surname:" + cursor3.getString(2));
-                        System.out.println("Age:" + cursor3.getString(3));
-                        System.out.println("Address:" + cursor3.getString(4));
-                        System.out.println("Phone:" + cursor3.getString(5));
-                        System.out.println("Condition:" + cursor3.getString(6));
-                        System.out.println("Username:" + cursor3.getString(7));
-                    }
-                } else {
-                    Cursor cursor3 = databaseHandler.searchUserInDoctors(cursor.getString(1));
-                    while(cursor3.moveToNext()) {
-                        System.out.println("Name:" + cursor3.getString(1));
-                        System.out.println("Surname:" + cursor3.getString(2));
-                        System.out.println("Age:" + cursor3.getString(3));
-                        System.out.println("Address:" + cursor3.getString(4));
-                        System.out.println("Phone:" + cursor3.getString(5));
-                        System.out.println("Specialization:" + cursor3.getString(6));
-                        System.out.println("Username:" + cursor3.getString(7));
-                    }
-                }
-            }
-        }
-
-        System.out.println("DOCTORIiIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        Cursor cursor5 = databaseHandler.allDataDoctors();
-        if(cursor5.getCount() == 0) {
-            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
-        else{
-            while(cursor5.moveToNext()){
-                System.out.println("Id: " + cursor5.getString(0));
-                System.out.println("Name: " + cursor5.getString(1));
-                System.out.println("Surname: " + cursor5.getString(2));
-                System.out.println("Age: " + cursor5.getString(3));
-                System.out.println("Address: " + cursor5.getString(4));
-                System.out.println("Phone: " + cursor5.getString(5));
-                System.out.println("Specialization: " + cursor5.getString(6));
-                System.out.println("Username: " + cursor5.getString(7));
-
-            }
-        }
-
-        System.out.println("APOINTMENTS");
-        Cursor cursor7 = databaseHandler.allDataAppointments();
-        if(cursor7.getCount() == 0) {
-            Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
-        else{
-            while(cursor7.moveToNext()){
-                System.out.println("Id: " + cursor7.getString(0));
-                System.out.println("idDoctor: " + cursor7.getString(1));
-                System.out.println("idPatient: " + cursor7.getString(2));
-                System.out.println("data: " + cursor7.getString(3));
-            }
-        }
 
         myprofile_button = (Button) findViewById(R.id.profileview);
         doctors_button = (Button) findViewById(R.id.doctors);
         appointments_button = (Button) findViewById(R.id.appointments);
 
-        System.out.println(sp.getBoolean("logged", false));
 
         if (sp.getBoolean("logged", false) == false) {
             myprofile_button.setVisibility(View.INVISIBLE);
@@ -266,41 +192,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if (id == R.id.action_settings) {
-            System.out.println("Settings");
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-/*        if (id == R.id.profileview) {
-            Intent intent = new Intent(this, ProfileView.class);
-            startActivity(intent);
-        }
-        if (id == R.id.appointments) {
-            Intent intent = new Intent(this, AppointmentsActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.doctors) {
-            Intent intent = new Intent(this, DoctorActivity.class);
-            startActivity(intent);
-        }*/
-
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed () {
-//        super .onClose(); ;
-
         if (sp.getBoolean("logged", false) && sp.getString("role","").equals("Patient")) {
             String username = sp.getString("username", "user");
             Cursor idUsername = databaseHandler.getPatientIdByUsername(username);
 
             int id = -1;
             while(idUsername.moveToNext()){
-                System.out.println("Id: " + idUsername.getInt(0));
                 id = idUsername.getInt(0);
             }
-            System.out.println(id);
             if (id != -1) {
                 LocalDate localDate = java.time.LocalDate.now();
                 Cursor cursor = databaseHandler.checkAppointment(id, localDate);
@@ -309,9 +217,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        finish();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        //finish();
     }
-//    public void closeApp (View view) {
-//        finish() ;
-//    }
+
 }
