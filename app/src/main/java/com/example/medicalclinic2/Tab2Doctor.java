@@ -21,9 +21,6 @@ import com.example.medicalclinic2.model.DatabaseHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class Tab2Doctor extends Fragment {
     private SharedPreferences sp;
     // TODO: Customize parameter argument names
@@ -32,10 +29,6 @@ public class Tab2Doctor extends Fragment {
     private int mColumnCount = 1;
     DatabaseHandler databaseHandler;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public Tab2Doctor() {
     }
 
@@ -69,7 +62,7 @@ public class Tab2Doctor extends Fragment {
         while (searchUserInDoctors.moveToNext()) {
             idDoctor = searchUserInDoctors.getInt(0);
         }
-        System.out.println(idDoctor);
+
         Cursor c = databaseHandler.getOldAppointmentByDoctor(idDoctor);
         List<String> data = new ArrayList<>();
             while(c.moveToNext()) {
@@ -84,9 +77,7 @@ public class Tab2Doctor extends Fragment {
                 }
                 data.add(c.getString(3) + " | " + name + " " + surname);
             }
-        System.out.println("!!!!!!");
-        System.out.println();
-        // Set the adapter
+
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;

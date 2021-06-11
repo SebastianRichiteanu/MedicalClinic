@@ -3,8 +3,10 @@ package com.example.medicalclinic2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,41 +23,26 @@ import com.example.medicalclinic2.ui.main.SectionsPagerAdapter;
 
 import java.lang.reflect.Array;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import android.content.SharedPreferences;
 import android.widget.TabHost;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Tab1Patient#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Tab1Patient extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Spinner dropdown;
     public SharedPreferences sp;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public Tab1Patient() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Tab1Patient.
-     */
     // TODO: Rename and change types and number of parameters
     public static Tab1Patient newInstance(String param1, String param2) {
         Tab1Patient fragment = new Tab1Patient();
@@ -100,6 +87,7 @@ public class Tab1Patient extends Fragment {
         final String[] date = {""};
 
         appointment_submit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
 
@@ -115,14 +103,17 @@ public class Tab1Patient extends Fragment {
                 while (getPatientIdByUsername.moveToNext()) {
                     idPatient = getPatientIdByUsername.getInt(0);
                 }
+
+                if (date[0].equals("")) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    LocalDateTime now = LocalDateTime.now();
+                    String current_date = dtf.format(now);
+                    String[] current = current_date.split("/");
+                    date[0] = current[0] + "-" + current[1] + "-" + current[2];
+                }
                 databaseHandler.insertAppointment(idDoctor, idPatient, Date.valueOf(date[0]));
-
-
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
-
-
-
             }
         });
 

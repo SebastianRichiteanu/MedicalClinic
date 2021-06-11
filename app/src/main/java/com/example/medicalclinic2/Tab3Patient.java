@@ -18,9 +18,6 @@ import com.example.medicalclinic2.model.DatabaseHandler;
 
 import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- */
 public class Tab3Patient extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -29,10 +26,6 @@ public class Tab3Patient extends Fragment {
     private int mColumnCount = 1;
     public SharedPreferences sp;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public Tab3Patient() {
     }
 
@@ -80,7 +73,6 @@ public class Tab3Patient extends Fragment {
             appointmentsList.add(date + " | " + name);
         }
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;

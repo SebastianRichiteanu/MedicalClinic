@@ -1,6 +1,7 @@
 package com.example.medicalclinic2;
 
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,13 +14,14 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button appointments_button;
     public DatabaseHandler databaseHandler;
     public SharedPreferences sp;
+    public SharedPreferences sp_settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sp = getSharedPreferences("login", MODE_PRIVATE);
+        sp_settings = getSharedPreferences("settings", MODE_PRIVATE);
 
         databaseHandler = new DatabaseHandler(this);
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            System.out.println("AAAAAAAAA");
             String method = extras.getString("method", "");
             if (method.equals("Register")) {
                 Intent i = new Intent(MainActivity.this, ProfileView.class);
@@ -54,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 databaseHandler.insertUser(username, password, role);
                 startActivity(i);
             } else {
-                System.out.println("BBBBBBBBB");
                 String username = sp.getString("username", "");
                 String name = extras.getString("name");
                 String surname = extras.getString("surname");
@@ -63,43 +65,35 @@ public class MainActivity extends AppCompatActivity {
                 String phoneNo = extras.getString("phoneNo");
 
                 if (sp.getString("role", "").equals("Patient")) {
-                    System.out.println("CCCCCCCCC");
                     String condition = extras.getString("condition");
                     Cursor cursorPatient = databaseHandler.searchUserInPatients(username);
                     boolean found = false;
                     while(cursorPatient.moveToNext()){
                         found = true;
                     }
-                    System.out.println(found);
+
                     if (found)
                         databaseHandler.editPatient(name, surname, age, address, phoneNo, condition, username);
                     else
                         databaseHandler.insertPatient(name, surname, age, address, phoneNo, condition, username);
                 } else if (sp.getString("role", "").equals("Doctor")) {
-                    System.out.println("DDDDDDDD");
                     String specialization = extras.getString("specialization");
                     Cursor cursorDoctor = databaseHandler.searchUserInDoctors(username);
                     boolean found = false;
                     while (cursorDoctor.moveToNext()) {
                         found = true;
                     }
-                    System.out.println(found);
+
                     if (found) {
                         databaseHandler.editDoctor(name, surname, age, address, phoneNo, specialization, username);
-                        System.out.println("AM MODIFICAT!!!!!!!!!!!!!!" + username);
                     }
                     else {
                         databaseHandler.insertDoctor(name, surname, age, address, phoneNo, specialization, username);
-
                     }
                 }
-
-
-
             }
         }
 
-        System.out.println("USERI!!!!");
         Cursor cursor = databaseHandler.allDataUsers();
 
         if(cursor.getCount() == 0)
@@ -136,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("DOCTORIiIIIIIIIIIIIIIIIIIIIIIIIIIII");
         Cursor cursor5 = databaseHandler.allDataDoctors();
         if(cursor5.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
@@ -154,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("APOINTMENTS");
         Cursor cursor7 = databaseHandler.allDataAppointments();
         if(cursor7.getCount() == 0) {
             Toast.makeText(getApplicationContext(), "NO DATA", Toast.LENGTH_SHORT).show();}
@@ -171,40 +163,49 @@ public class MainActivity extends AppCompatActivity {
         doctors_button = (Button) findViewById(R.id.doctors);
         appointments_button = (Button) findViewById(R.id.appointments);
 
-        myprofile_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ProfileView.class);
-                startActivity(i);
-            }
-        });
+        System.out.println(sp.getBoolean("logged", false));
 
-        String role = sp.getString("role", "");
-
-        if ( role.equals("Patient") ) {
+        if (sp.getBoolean("logged", false) == false) {
+            myprofile_button.setVisibility(View.INVISIBLE);
             doctors_button.setVisibility(View.INVISIBLE);
-            appointments_button.setVisibility(View.VISIBLE);
-
-            appointments_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-        else if ( role.equals("Doctor") ) {
-            doctors_button.setVisibility(View.VISIBLE);
             appointments_button.setVisibility(View.INVISIBLE);
-
-            doctors_button.setOnClickListener(new View.OnClickListener() {
+        } else {
+            myprofile_button.setVisibility(View.VISIBLE);
+            myprofile_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, DoctorActivity.class);
-                    startActivity(intent);
+                    Intent i = new Intent(MainActivity.this, ProfileView.class);
+                    startActivity(i);
                 }
             });
+
+            String role = sp.getString("role", "");
+
+            if (role.equals("Patient")) {
+                doctors_button.setVisibility(View.INVISIBLE);
+                appointments_button.setVisibility(View.VISIBLE);
+
+                appointments_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            } else if (role.equals("Doctor")) {
+                doctors_button.setVisibility(View.VISIBLE);
+                appointments_button.setVisibility(View.INVISIBLE);
+
+                doctors_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, DoctorActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
+
     }
 
     @Override
@@ -232,16 +233,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.login){
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
@@ -255,20 +248,35 @@ public class MainActivity extends AppCompatActivity {
             sp.edit().putBoolean("logged", false).apply();
             startActivity(intent);
         }
-/*        if (id == R.id.profileview) {
-            Intent intent = new Intent(this, ProfileView.class);
+        if (id == R.id.action_settings) {
+            System.out.println("Settings");
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-        if (id == R.id.appointments) {
-            Intent intent = new Intent(this, AppointmentsActivity.class);
-            startActivity(intent);
-        }
-        if (id == R.id.doctors) {
-            Intent intent = new Intent(this, DoctorActivity.class);
-            startActivity(intent);
-        }*/
-
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed () {
+        if (sp.getBoolean("logged", false) && sp.getString("role","").equals("Patient")) {
+            String username = sp.getString("username", "user");
+            Cursor idUsername = databaseHandler.getPatientIdByUsername(username);
+
+            int id = -1;
+            while(idUsername.moveToNext()){
+                System.out.println("Id: " + idUsername.getInt(0));
+                id = idUsername.getInt(0);
+            }
+            System.out.println(id);
+            if (id != -1) {
+                LocalDate localDate = java.time.LocalDate.now();
+                Cursor cursor = databaseHandler.checkAppointment(id, localDate);
+                if (cursor.getCount() != 0 && sp_settings.getBoolean("send_notifications", false) == true) {
+                    startService(new Intent(this, NotificationService.class));
+                }
+            }
+        }
+        finish();
     }
 }

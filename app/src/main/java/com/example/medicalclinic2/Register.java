@@ -35,7 +35,6 @@ public class Register extends AppCompatActivity {
         matcher = pattern.matcher(password);
 
         return matcher.matches();
-
     }
 
     @Override

@@ -24,9 +24,6 @@ import com.example.medicalclinic2.model.DatabaseHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class Tab1Doctor extends Fragment {
     private SharedPreferences sp;
     private DatabaseHandler databaseHandler;
@@ -35,10 +32,6 @@ public class Tab1Doctor extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public Tab1Doctor() {
     }
 
@@ -69,10 +62,11 @@ public class Tab1Doctor extends Fragment {
         databaseHandler = new DatabaseHandler(getContext());
         Cursor searchUserInDoctors = databaseHandler.searchUserInDoctors(sp.getString("username",""));
         int idDoctor = 0;
+
         while (searchUserInDoctors.moveToNext()) {
             idDoctor = searchUserInDoctors.getInt(0);
         }
-        System.out.println(idDoctor);
+
         Cursor c = databaseHandler.getNewAppointmentByDoctor(idDoctor);
         List<String> data = new ArrayList<>();
             while(c.moveToNext()) {
@@ -87,9 +81,7 @@ public class Tab1Doctor extends Fragment {
                 }
                 data.add(c.getString(3) + " | " + name + " " + surname);
             }
-        System.out.println("!!!!!!");
-        System.out.println();
-        // Set the adapter
+
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -101,6 +93,5 @@ public class Tab1Doctor extends Fragment {
             recyclerView.setAdapter(new MyAppointmentRecyclerViewAdapter(data));
         }
         return view;
-
     }
 }

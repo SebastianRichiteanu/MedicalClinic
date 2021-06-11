@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedicalClinic2</string>
+    <string name="app_name">Medical Clinic</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -39,6 +39,39 @@
     <string name="submit">Submit</string>
     <string name="action_doctors">Doctors</string>
     <string name="title_activity_doctor">Doctor Activity</string>
-    <string name="myprofilebutton">My profile</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="contact_info">
+        Contact and information:\n\n
+        Customer support Tel: +40 734 176 198\n
+        Email: support.MedicalClinic@gmail.com\n
+        \n
+
+        Creators: \n
+            Burtiguș Mihai - burtiga.mihai1@yahoo.com\n
+            Hernest Mihai - mihai.hernest99@gmail.com\n
+            Necula Narcis - narcis.necula00@gmail.com\n
+            Richițeanu Sebastian - seba.ry@gmail.com\n
+        \n
+        Customer support open 24/7.\n
+        Aplication created using Android Studio 4.1\n
+        Programming language: Java\n
+        Version: 2.1\n
+
+    </string>
 
 </resources>

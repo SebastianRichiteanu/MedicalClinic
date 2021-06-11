@@ -18,9 +18,6 @@ import com.example.medicalclinic2.model.DatabaseHandler;
 
 import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- */
 public class Tab2Patient extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -29,10 +26,6 @@ public class Tab2Patient extends Fragment {
     private int mColumnCount = 1;
     public SharedPreferences sp;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public Tab2Patient() {
     }
 
@@ -60,8 +53,6 @@ public class Tab2Patient extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab2_patient_list, container, false);
 
-        // Set the adapter
-
         DatabaseHandler databaseHandler = new DatabaseHandler(getContext());
         sp = getActivity().getSharedPreferences("login", 0);
         Cursor searchUserInPatients = databaseHandler.searchUserInPatients(sp.getString("username",""));
@@ -82,7 +73,6 @@ public class Tab2Patient extends Fragment {
             String date = getNewAppointmentsByPatient.getString(3);
             appointmentsList.add(date + " | " + name);
         }
-
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
