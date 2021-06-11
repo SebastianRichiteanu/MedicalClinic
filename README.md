@@ -10,7 +10,13 @@ The UML Diagram for an android app for managing a Medical Clinic.
 ![Unit Testing](https://user-images.githubusercontent.com/62207063/121683668-631b4900-cac6-11eb-91c9-24f48091469b.png)
 
 # Build Tool
+Our project is developed using Andorid Studio IDE that has a Gradle-based building tool. When we want to build our project in an APK, so that we can give it to our users to install the application and use it, we go to: 
+![image](https://user-images.githubusercontent.com/62207063/121685936-387ebf80-cac9-11eb-9935-e16554899cdb.png)
+
+and click Build APK. Then, in the folder our project is in, it generates 2 files: 
 ![Build Tool](https://user-images.githubusercontent.com/62207063/121685149-42ec8980-cac8-11eb-938f-c16963b26d21.png)
+
+One of the file, "app-debug.apk", is the apk that will install our application, the other one, "output.json", is a message that tells us if the apk was generated succesfully or not. We then transfer the APK to our mobile device and run it to install the application.
 
 # User Stories
 [Feedback and issues resolved](https://github.com/SebastianRichiteanu/MedicalClinic/issues) : We released a beta version 1.0 to a test group and we colected feedback(wich we show as screenshots) and we solved and adressed every complain and issue.
@@ -30,6 +36,9 @@ The UML Diagram for an android app for managing a Medical Clinic.
 1. [Not testing wrong names](https://github.com/SebastianRichiteanu/MedicalClinic/issues/18)
 2. [Menu item wrong position](https://github.com/SebastianRichiteanu/MedicalClinic/issues/17)
 3. [Database double entries](https://github.com/SebastianRichiteanu/MedicalClinic/issues/16)
+
+# Source control
+[Branches](https://github.com/SebastianRichiteanu/MedicalClinic/branches)
 
 # Contact
 Creators: Richițeanu Mihai Sebastian - richi.mihaita12@gmail.ro
