@@ -1,8 +1,14 @@
 # MedicalClinic
-The UML Diagram for an android app for managing a Medical Clinic.
-![Medical Clinic UML Diagram](https://user-images.githubusercontent.com/62501946/120067389-065e6e00-c084-11eb-8785-d5209658b5c3.png)
 
 ![Medical Clinic LOGO](https://user-images.githubusercontent.com/62501946/121354484-94b1da00-c937-11eb-8037-1c6a74d6ad20.png)
+
+# UML Diagrams 
+The UML Class Diagram for an android app for managing a Medical Clinic.
+![Medical Clinic UML Class Diagram](https://user-images.githubusercontent.com/62501946/120067389-065e6e00-c084-11eb-8785-d5209658b5c3.png)
+The UML Use Case diagram
+![Medical Clinic UML Use Case Diagram](https://user-images.githubusercontent.com/61471997/121897818-6c591f80-cd2b-11eb-960f-3a0e37932b59.jpg)
+
+
 
 [Prezentare video]()
 
