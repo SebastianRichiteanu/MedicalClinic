@@ -9,8 +9,8 @@ The UML Use Case diagram
 ![Medical Clinic UML Use Case Diagram](https://user-images.githubusercontent.com/61471997/121897818-6c591f80-cd2b-11eb-960f-3a0e37932b59.jpg)
 
 
-
-[Prezentare video](https://youtu.be/1eaTLT3gCkQ)
+# Prezentare video
+[Link catre videoclipul pe youtube.](https://youtu.be/1eaTLT3gCkQ)
 
 # Unit Testing
 ![Unit Testing](https://user-images.githubusercontent.com/62207063/121683668-631b4900-cac6-11eb-91c9-24f48091469b.png)
